@@ -1,6 +1,11 @@
 stages:
     - build
     - test
-build: 
+like_service_build:
     stage: build
-    script: 
+    only:
+        changes:
+            -"code/service-likes"
+        script:
+            - cd code/service-likes
+            - mnv build
