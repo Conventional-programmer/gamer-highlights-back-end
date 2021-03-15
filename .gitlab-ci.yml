@@ -7,6 +7,6 @@ like_service_build:
     only:
         changes:
             -"code/service-likes"
-        script:
-            - cd code/service-likes
-            - mnv build
+    script:
+        - cd code/service-likes
+        - mnv build
