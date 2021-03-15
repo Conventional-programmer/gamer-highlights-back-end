@@ -1,6 +1,7 @@
 stages:
     - build
     - test
+    - deploy
 like_service_build:
     stage: build
     only:
