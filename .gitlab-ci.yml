@@ -6,7 +6,7 @@ like_service_build:
     stage: build
     only:
         changes:
-            -"code/service-likes/*"
+            - "code/service-likes/*"
     script:
         - cd code/service-likes
         - mnv build
