@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="service-image" />
+        <module name="service-authentication" />
+        <module name="service-user" />
+        <module name="service-likes" />
+        <module name="service-post" />
+        <module name="service-comment" />
+        <module name="library-rest" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="game-highlights" target="11" />
+      <module name="library-rest" target="11" />
+      <module name="service-authentication" target="11" />
+      <module name="service-comment" target="11" />
+      <module name="service-image" target="11" />
+      <module name="service-likes" target="11" />
+      <module name="service-post" target="11" />
+      <module name="service-user" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="service-authentication" options="" />
+      <module name="service-comment" options="" />
+      <module name="service-image" options="" />
+      <module name="service-likes" options="" />
+    </option>
+  </component>
+</project>

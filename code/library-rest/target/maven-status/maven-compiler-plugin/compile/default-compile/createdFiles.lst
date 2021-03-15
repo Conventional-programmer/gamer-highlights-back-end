@@ -1,0 +1,5 @@
+nl\fhict\s6\libraryrest\datamodels\EntityDao.class
+nl\fhict\s6\libraryrest\service\CrudService.class
+nl\fhict\s6\libraryrest\converters\BaseDaoConverter.class
+nl\fhict\s6\libraryrest\controller\BaseController.class
+nl\fhict\s6\libraryrest\converters\DaoConverter.class
