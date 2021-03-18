@@ -9,10 +9,10 @@ like_service_build:
     only:
         changes:
             - "code/service-likes/*"
-    script: "mvn clean package -f service-likes/pom.xml"
+    script: "mvn clean package -f code/service-likes/pom.xml"
     artifacts:
         paths:
-            - service-likes/target/*.jar
+            - code/service-likes/target/*.jar
 
 like_service_test:
     image:
