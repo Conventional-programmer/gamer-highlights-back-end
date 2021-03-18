@@ -3,6 +3,8 @@ stages:
     - test
     - deploy
 like_service_build:
+    image:
+        name: maven:3.6-jdk-11
     stage: build
     only:
         changes:
