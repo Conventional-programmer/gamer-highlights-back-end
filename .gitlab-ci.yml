@@ -9,9 +9,11 @@ like_service_build:
     only:
         changes:
             - "code/service-likes/*"
-    script:
-        - cd code/service-likes
-        - mvn compile
+    script: "mvn clean package -f service-likes/pom.xml"
+    artifacts:
+        paths:
+            - service-likes/target/*.jar
+
 like_service_test:
     image:
         name: maven:3.6-jdk-11
