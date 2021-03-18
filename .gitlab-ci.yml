@@ -11,7 +11,7 @@ like_service_build:
             - "code/service-likes/*"
     script:
         - cd code/service-likes
-        - mvn build
+        - mvn compile
 like_service_test:
     image:
         name: maven:3.6-jdk-11
