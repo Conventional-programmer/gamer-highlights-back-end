@@ -12,3 +12,13 @@ like_service_build:
     script:
         - cd code/service-likes
         - mvn build
+like_service_test:
+    image:
+        name: maven:3.6-jdk-11
+    stage: test
+    only:
+        changes:
+            - "code/service-likes/*"
+    script:
+        - cd code/service-likes
+        - mvn test
