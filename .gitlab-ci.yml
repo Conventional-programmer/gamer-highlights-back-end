@@ -11,4 +11,4 @@ like_service_build:
             - "code/service-likes/*"
     script:
         - cd code/service-likes
-        - mnv build
+        - mvn build
