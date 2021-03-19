@@ -1,5 +1,8 @@
 package nl.fhict.s6.serviceauthentication.security;
 
+import nl.fhict.s6.serviceauthentication.security.jwt.AuthEntryPointJwt;
+import nl.fhict.s6.serviceauthentication.security.jwt.AuthTokenFilter;
+import nl.fhict.s6.serviceauthentication.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import restserver.security.jwt.AuthEntryPointJwt;
-import restserver.security.jwt.AuthTokenFilter;
-import restserver.security.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -58,11 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/auth/login").permitAll()
                 .antMatchers("/auth/register").permitAll()
-                .antMatchers("/games/**").permitAll()
-                .antMatchers("/languages/**").permitAll()
-                .antMatchers("/game_categories/**").permitAll()
-                .antMatchers("/roles/**").permitAll()
-                .antMatchers("/gamers/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

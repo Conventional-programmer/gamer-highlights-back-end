@@ -1,21 +1,10 @@
-package nl.fhict.s6.servicelikes.datamodels;
+package nl.fhict.s6.servicelikes.dto;
 
-import com.sun.istack.NotNull;
-
-import javax.persistence.*;
-
-@Entity(name = "Likes")
-@Table(name = "likes")
-public class LikeDao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    @NotNull
+public class LikeDto {
     private Long postId;
-    @Column(name = "likes")
     private Integer likes;
 
-    public LikeDao() {
+    public LikeDto() {
     }
 
     public Long getPostId() {
