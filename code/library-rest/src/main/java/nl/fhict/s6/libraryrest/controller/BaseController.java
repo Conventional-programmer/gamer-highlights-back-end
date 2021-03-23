@@ -17,7 +17,7 @@ public class BaseController <Dao extends EntityDao,Dto> {
         this.daoConverter = daoConverter;
     }
     @GetMapping("/all")
-    public ResponseEntity<List<Dto>> getEntityById()
+    public ResponseEntity<List<Dto>> getAllEntities()
     {
         List<Dao> daos = crudService.findAll();
         List<Dto> dtoEntities = daoConverter.objectDaosToObjects(daos);

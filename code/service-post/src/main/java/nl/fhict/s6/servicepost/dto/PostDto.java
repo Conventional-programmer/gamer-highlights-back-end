@@ -7,7 +7,7 @@ public class PostDto {
     private UserDto postingUser;
     private String imageUrl;
     private String description;
-    private List<CommentDto> commentIds;
+    private List<CommentDto> commentDtos;
     private int likes;
 
     public int getLikes() {
@@ -53,11 +53,11 @@ public class PostDto {
         this.postingUser = postingUser;
     }
 
-    public List<CommentDto> getCommentIds() {
-        return commentIds;
+    public List<CommentDto> getCommentDtos() {
+        return commentDtos;
     }
 
-    public void setCommentIds(List<CommentDto> commentIds) {
-        this.commentIds = commentIds;
+    public void setCommentDtos(List<CommentDto> commentDtos) {
+        this.commentDtos = commentDtos;
     }
 }

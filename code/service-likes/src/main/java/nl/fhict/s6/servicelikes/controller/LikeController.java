@@ -7,10 +7,7 @@ import nl.fhict.s6.servicelikes.service.LikeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/like")
@@ -28,6 +25,13 @@ public class LikeController {
     {
         Integer likes = likeService.getLikesByPostId(postId);
         return new ResponseEntity<>(likes, HttpStatus.OK);
+    }
+    @PostMapping("")
+    public ResponseEntity savePost(LikeDto likeDto)
+    {
+        LikeDao likeDao = likeDaoConverter.objectToObjectDao(likeDto);
+        likeService.save(likeDao);
+        return ResponseEntity.ok().build();
     }
     @PutMapping("/{postId}")
     public ResponseEntity updateLikesOnPost(@PathVariable("postId")Long postId, LikeDto likeDto)

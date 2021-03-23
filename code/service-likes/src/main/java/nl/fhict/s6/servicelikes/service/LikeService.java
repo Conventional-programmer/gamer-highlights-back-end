@@ -37,4 +37,9 @@ public class LikeService {
         if(likeRepository.existsById(likeDao.getPostId()))
         likeRepository.save(likeDao);
     }
+    public void save(LikeDao likeDao)
+    {
+        if(!likeRepository.existsById(likeDao.getPostId()))
+        likeRepository.save(likeDao);
+    }
 }

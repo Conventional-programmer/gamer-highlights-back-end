@@ -18,6 +18,11 @@ public class LikeDao {
     public LikeDao() {
     }
 
+    public LikeDao(Long postId, Integer likes) {
+        this.postId = postId;
+        this.likes = likes;
+    }
+
     public Long getPostId() {
         return postId;
     }
