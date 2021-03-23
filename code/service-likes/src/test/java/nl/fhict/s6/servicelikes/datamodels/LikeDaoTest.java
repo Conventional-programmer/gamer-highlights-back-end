@@ -3,11 +3,13 @@ package nl.fhict.s6.servicelikes.datamodels;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 public class LikeDaoTest {
     private LikeDao likeDao;
     @BeforeEach

@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.fhict.s6.servicelikes.converters.LikeDaoConverter;
 import nl.fhict.s6.servicelikes.datamodels.LikeDao;
 import nl.fhict.s6.servicelikes.dto.LikeDto;
+import nl.fhict.s6.servicelikes.repository.LikeRepository;
 import nl.fhict.s6.servicelikes.service.LikeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -22,11 +24,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(LikeController.class)
+@ActiveProfiles("test")
 public class LikeControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     LikeService likeService;
+    @MockBean
+    LikeRepository likeRepository;
     @Autowired
     LikeDaoConverter realLikeDaoConverter;
     @MockBean

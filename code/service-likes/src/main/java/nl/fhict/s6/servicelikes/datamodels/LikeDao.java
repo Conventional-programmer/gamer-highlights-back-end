@@ -10,7 +10,6 @@ public class LikeDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
-    @NotNull
     private Long postId;
     @Column(name = "likes")
     private Integer likes;

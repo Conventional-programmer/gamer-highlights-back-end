@@ -9,6 +9,6 @@ public class HttpBaseService<T,Id> {
     }
     public T getById(Id id)
     {
-        return baseHttpContext.getCommentDto(id);
+        return baseHttpContext.getDtoById(id);
     }
 }
