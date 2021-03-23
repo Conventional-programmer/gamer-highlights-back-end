@@ -13,7 +13,7 @@
 	<repositories>
 		<repository>
 			<id>like-repo</id>
-			<url>file://${project.basedir}/lib</url>
+			<url>file:///${project.basedir}/lib</url>
 		</repository>
 	</repositories>
 	<dependencyManagement>
