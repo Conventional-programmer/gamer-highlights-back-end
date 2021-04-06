@@ -1,5 +1,7 @@
 package nl.fhict.s6.serviceuser.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserDto {
     private Long userId;
     private String username;
@@ -22,13 +24,5 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

@@ -9,7 +9,7 @@ public class UserGeneration {
     public List<UserDao> generateUsers()
     {
         List<UserDao> userDaos = new ArrayList<>();
-        userDaos.add(new UserDao());
+        userDaos.add(new UserDao(1L,"Bert@gmail.com"));
         return userDaos;
     }
 }

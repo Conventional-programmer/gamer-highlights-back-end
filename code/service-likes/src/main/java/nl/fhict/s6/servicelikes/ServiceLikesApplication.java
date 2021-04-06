@@ -10,8 +10,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 @SpringBootApplication
 public class ServiceLikesApplication {

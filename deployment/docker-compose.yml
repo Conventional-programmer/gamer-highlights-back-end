@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+  message-broker:
+    image: rabbitmq:3.8-management
+    hostname: message-broker
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  service-authentication-oauth: # <--- this is the name of the service and should be unique.
+    image: service-authetication-oauth:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
+    hostname: service-authetication-oauth # <--- this will be the hostname it will be known as.
+    restart: always # <--- if it fails, always restart.
+    ports:
+      - 8081:8080 # <-- bind the host port 8081 to whatever is running in the container on 8080.
+  service-comment: # <--- this is the name of the service and should be unique.
+    image: service-comment:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
+    hostname: service-comment # <--- this will be the hostname it will be known as.
+    restart: always # <--- if it fails, always restart.
+    ports:
+      - 8082:8080 # <-- bind the host port 8081 to whatever is running in the container on 8080.
+  service-image: # <--- this is the name of the service and should be unique.
+    image: service-image:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
+    hostname: service-image # <--- this will be the hostname it will be known as.
+    restart: always # <--- if it fails, always restart.
+    ports:
+      - 8083:8080 # <-- bind the host port 8081 to whatever is running in the container on 8080.
+  service-like: # <--- this is the name of the service and should be unique.
+    image: service-like:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
+    hostname: service-like # <--- this will be the hostname it will be known as.
+    restart: always # <--- if it fails, always restart.
+    ports:
+      - 8084:8080 # <-- bind the host port 8081 to whatever is running in the container on 8080.
+  service-post: # <--- this is the name of the service and should be unique.
+    image: service-post:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
+    hostname: service-post # <--- this will be the hostname it will be known as.
+    restart: always # <--- if it fails, always restart.
+    ports:
+      - 8085:8080 # <-- bind the host port 8081 to whatever is running in the container on 8080.
+  service-user: # <--- this is the name of the service and should be unique.
+    image: service-post:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
+    hostname: service-post # <--- this will be the hostname it will be known as.
+    restart: always # <--- if it fails, always restart.
+    ports:
+      - 8086:8080 # <-- bind the host port 8081 to whatever is running in the container on 8080.

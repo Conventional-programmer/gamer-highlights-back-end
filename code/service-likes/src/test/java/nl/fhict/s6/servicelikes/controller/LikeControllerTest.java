@@ -30,8 +30,6 @@ public class LikeControllerTest {
     private MockMvc mockMvc;
     @MockBean
     LikeService likeService;
-    @MockBean
-    LikeRepository likeRepository;
     @Autowired
     LikeDaoConverter realLikeDaoConverter;
     @MockBean

@@ -12,7 +12,6 @@ public class UserDaoConverter extends BaseDaoConverter<UserDao, UserDto> {
         UserDao userDao = new UserDao();
         userDao.setId(object.getUserId());
         userDao.setUsername(object.getUsername());
-        userDao.setPassword(object.getPassword());
         return userDao;
     }
 

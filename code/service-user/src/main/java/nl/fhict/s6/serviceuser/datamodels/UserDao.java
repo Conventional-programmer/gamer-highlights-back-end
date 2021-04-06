@@ -3,7 +3,11 @@ package nl.fhict.s6.serviceuser.datamodels;
 import nl.fhict.s6.libraryrest.datamodels.EntityDao;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity(name = "User")
+@Table(name = "user")
 public class UserDao extends EntityDao {
     @Column(name = "username")
     private String username;
@@ -11,6 +15,11 @@ public class UserDao extends EntityDao {
     String password;
 
     public UserDao() {
+    }
+
+    public UserDao(Long id, String username) {
+        super(id);
+        this.username = username;
     }
 
     public String getUsername() {
@@ -21,11 +30,4 @@ public class UserDao extends EntityDao {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

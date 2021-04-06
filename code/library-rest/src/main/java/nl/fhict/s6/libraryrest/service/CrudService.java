@@ -1,6 +1,7 @@
 package nl.fhict.s6.libraryrest.service;
 
 import nl.fhict.s6.libraryrest.datamodels.EntityDao;
+import nl.fhict.s6.libraryrest.exception.NoObjectById;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -23,16 +24,16 @@ public class CrudService<T extends EntityDao> {
         Optional<T> optionalResult = this.jpaRepository.findById(id);
         return optionalResult.isPresent() ? optionalResult.get() : null;
     }
-    public void save(T object)
+    public T save(T object)
     {
-        jpaRepository.save(object);
+        return jpaRepository.save(object);
     }
-    public void update(T object)
-    {
+    public T update(T object) throws NoObjectById {
         if(jpaRepository.existsById(object.getId()))
         {
-            jpaRepository.save(object);
+            return jpaRepository.save(object);
         }
+        throw new NoObjectById("does not exist");
     }
     public void deleteById(Long id)
     {

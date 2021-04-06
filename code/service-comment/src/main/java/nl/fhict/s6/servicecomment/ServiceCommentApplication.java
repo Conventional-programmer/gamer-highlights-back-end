@@ -34,9 +34,8 @@ public class ServiceCommentApplication {
 		if (Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
 			return (args) -> {
 				List<UserDao> userDaos = new UserDaoGeneration().generateUserDaos();
-				commentRepository.saveAll(new CommentDaoGeneration().generateCommentDaos(userDaos));
 				userRepository.saveAll(userDaos);
-
+				commentRepository.saveAll(new CommentDaoGeneration().generateCommentDaos(userDaos));
 			};
 		}
 		else {
