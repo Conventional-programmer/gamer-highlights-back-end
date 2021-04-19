@@ -8,8 +8,8 @@ authentication_service_build:
     stage: build
     only:
         changes:
-            - "code/service-likes/*"
-    script: "mvn clean package -f code/service-likes/pom.xml"
+            - "code/service-authentication/*"
+    script: "mvn clean package -f code/service-authentication/pom.xml"
     artifacts:
         paths:
             - code/service-likes/target/*.jar
@@ -20,16 +20,107 @@ authentication_service_test:
     stage: test
     only:
         changes:
-            - "code/service-likes/*"
+            - "code/service-authentication/*"
     script:
-        - cd code/service-likes
+        - cd code/service-authentication
         - mvn test
 authentication-service-deploy:
   stage: deploy
   script:
+    - docker build code/service-authentication -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:latest"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-authentication"
+  only:
+    - master
+user_service_build:
+    image:
+        name: maven:3.6-jdk-11
+    stage: build
+    only:
+        changes:
+            - "code/service-user/*"
+    script: "mvn clean package -f code/service-user/pom.xml"
+    artifacts:
+        paths:
+            - code/service-user/target/*.jar
+
+user_service_test:
+    image:
+        name: maven:3.6-jdk-11
+    stage: test
+    only:
+        changes:
+            - "code/service-user/*"
+    script:
+        - cd code/service-user
+        - mvn test
+user-service-deploy:
+  stage: deploy
+  script:
+    - docker build code/service-user -t "$CI_REGISTRY_IMAGE_PREFIX/service-user:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-user"
+  only:
+    - master
+comment_service_build:
+    image:
+        name: maven:3.6-jdk-11
+    stage: build
+    only:
+        changes:
+            - "code/service-comment/*"
+    script: "mvn clean package -f code/service-comment/pom.xml"
+    artifacts:
+        paths:
+            - code/service-comment/target/*.jar
+
+comment_service_test:
+    image:
+        name: maven:3.6-jdk-11
+    stage: test
+    only:
+        changes:
+            - "code/service-comment/*"
+    script:
+        - cd code/service-comment
+        - mvn test
+comment-service-deploy:
+  stage: deploy
+  script:
+    - docker build code/service-comment -t "$CI_REGISTRY_IMAGE_PREFIX/service-comment:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-comment"
+  only:
+    - master
+
+image_service_build:
+    image:
+        name: maven:3.6-jdk-11
+    stage: build
+    only:
+        changes:
+            - "code/service-likes/*"
+    script: "mvn clean package -f code/service-likes/pom.xml"
+    artifacts:
+        paths:
+            - code/service-likes/target/*.jar
+
+image_service_test:
+    image:
+        name: maven:3.6-jdk-11
+    stage: test
+    only:
+        changes:
+            - "code/service-likes/*"
+    script:
+        - cd code/service-likes
+        - mvn test
+image-service-deploy:
+  stage: deploy
+  script:
     - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes#"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
   only:
     - master
 like_service_build:
@@ -59,6 +150,37 @@ like-service-deploy:
   script:
     - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes#"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
   only:
     - master
+post_service_build:
+    image:
+        name: maven:3.6-jdk-11
+    stage: build
+    only:
+        changes:
+            - "code/service-post/*"
+    script: "mvn clean package -f code/service-post/pom.xml"
+    artifacts:
+        paths:
+            - code/service-post/target/*.jar
+
+post_service_test:
+    image:
+        name: maven:3.6-jdk-11
+    stage: test
+    only:
+        changes:
+            - "code/service-post/*"
+    script:
+        - cd code/service-post
+        - mvn test
+post-service-deploy:
+  stage: deploy
+  script:
+    - docker build code/service-post -t "$CI_REGISTRY_IMAGE_PREFIX/service-post:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-post"
+  only:
+    - master
+
