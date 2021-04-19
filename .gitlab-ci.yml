@@ -31,7 +31,7 @@ authentication-service-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-authentication"
   only:
-    - master
+    - main
 user_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -61,7 +61,7 @@ user-service-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-user"
   only:
-    - master
+    - main
 comment_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -91,7 +91,7 @@ comment-service-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-comment"
   only:
-    - master
+    - main
 
 image_service_build:
     image:
@@ -122,7 +122,7 @@ image-service-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
   only:
-    - master
+    - main
 like_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -152,7 +152,7 @@ like-service-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
   only:
-    - master
+    - main
 post_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -182,5 +182,5 @@ post-service-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-post"
   only:
-    - master
+    - main
 
