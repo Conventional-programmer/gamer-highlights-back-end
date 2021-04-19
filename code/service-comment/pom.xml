@@ -13,6 +13,13 @@
 		<maven.compiler.target>11</maven.compiler.target>
 		<java.version>11</java.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>localrepository</id>
+			<url>file:${project.basedir}/../libraries/</url>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

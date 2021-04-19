@@ -3,8 +3,6 @@ package nl.fhict.s6.servicecomment.eventreceiver;
 import nl.fhict.s6.servicecomment.Serialization.ISerializer;
 import nl.fhict.s6.servicecomment.Serialization.SerializationProvider;
 import nl.fhict.s6.servicecomment.basemessaging.EncapsulatingMessage;
-import nl.fhict.s6.servicecomment.messaging.EventHandler;
-import nl.fhict.s6.servicecomment.event.UsernameChangedEvent;
 import nl.fhict.s6.servicecomment.messaging.ServerMessageProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

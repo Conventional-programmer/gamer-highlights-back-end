@@ -11,14 +11,18 @@ import nl.fhict.s6.servicepost.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
-@Controller
+@RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/post")
-public class PostController extends BaseController<PostDao,PostDto> {
+public class  PostController extends BaseController<PostDao,PostDto> {
     private PostService postService;
     private PostDaoConverter postDaoConverter;
     private LikeService likeService;
@@ -37,5 +41,15 @@ public class PostController extends BaseController<PostDao,PostDto> {
         PostDto postDto = postDaoConverter.objectDaoToObject(postDao);
         postDto.setCommentDtos(commentService.getCommentDtos(postDao.getId()));
         return new ResponseEntity(postDto, HttpStatus.OK);
+    }
+    @RequestMapping("/user/{id}")
+    public ResponseEntity<List<PostDto>> getEntityByUserId(@PathVariable("id") Long id)
+    {
+        List<PostDao> postDaos = postService.getPostsByUserId(id);
+        List<PostDto> postDtos = postDaoConverter.objectDaosToObjects(postDaos);
+        for (PostDto postDto: postDtos) {
+            postDto.setCommentDtos(commentService.getCommentDtos(postDto.getId()));
+        }
+        return new ResponseEntity(postDtos, HttpStatus.OK);
     }
 }

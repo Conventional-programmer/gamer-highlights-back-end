@@ -1,9 +1,7 @@
 package nl.fhict.s6.serviceuser.controller;
 
 import nl.fhict.s6.libraryrest.controller.BaseController;
-import nl.fhict.s6.libraryrest.converters.DaoConverter;
 import nl.fhict.s6.libraryrest.exception.NoObjectById;
-import nl.fhict.s6.libraryrest.service.CrudService;
 import nl.fhict.s6.serviceuser.converters.UserDaoConverter;
 import nl.fhict.s6.serviceuser.datamodels.UserDao;
 import nl.fhict.s6.serviceuser.dto.UserDto;
@@ -13,11 +11,11 @@ import nl.fhict.s6.serviceuser.service.UserService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
-@Controller
+@RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/user")
 public class UserController extends BaseController<UserDao, UserDto> {
     private final UserService userService;

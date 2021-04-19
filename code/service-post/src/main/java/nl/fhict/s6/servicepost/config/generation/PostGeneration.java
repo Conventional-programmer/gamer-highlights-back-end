@@ -9,7 +9,7 @@ public class PostGeneration {
     public List<PostDao> generatePostDaos()
     {
         List<PostDao> postDaos = new ArrayList<>();
-        postDaos.add(new PostDao(1L,"www.google.nl","bert",50));
+        postDaos.add(new PostDao(1L,1L,"www.google.nl","bert",50));
         return postDaos;
     }
 }

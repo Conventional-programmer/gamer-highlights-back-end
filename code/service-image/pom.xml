@@ -8,6 +8,11 @@
 	<name>service-image</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.version>3.8.1</maven.compiler.version>
+		<spring.maven.version>2.4.3</spring.maven.version>
 		<java.version>11</java.version>
 	</properties>
 	<dependencyManagement>
@@ -21,6 +26,12 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<repositories>
+		<repository>
+			<id>localrepository</id>
+			<url>file:${project.basedir}/../libraries</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -44,6 +55,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.maven.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

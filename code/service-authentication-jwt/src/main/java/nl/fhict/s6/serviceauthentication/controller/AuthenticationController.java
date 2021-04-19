@@ -38,9 +38,9 @@ public class AuthenticationController {
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
     private final AmqpTemplate rabbitTemplate;
-    @Value("${workshop.rabbitmq.exchange}")
+    @Value("${gamehighlights.rabbitmq.exchange}")
     private String exchange;
-    @Value("${workshop.rabbitmq.routingkey}")
+    @Value("${gamehighlights.rabbitmq.routingkey}")
     private String routingkey;
     public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService, PasswordEncoder encoder, JwtUtils jwtUtils,AmqpTemplate rabbitTemplate) {
         this.authenticationManager = authenticationManager;

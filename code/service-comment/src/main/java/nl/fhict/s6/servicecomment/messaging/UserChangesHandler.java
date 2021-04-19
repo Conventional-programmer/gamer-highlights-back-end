@@ -6,10 +6,6 @@ import nl.fhict.s6.servicecomment.converters.UserEventConverter;
 import nl.fhict.s6.servicecomment.datamodels.UserDao;
 import nl.fhict.s6.servicecomment.event.UsernameChangedEvent;
 import nl.fhict.s6.servicecomment.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 
 @Component

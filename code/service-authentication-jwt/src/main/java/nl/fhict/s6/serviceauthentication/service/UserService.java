@@ -1,6 +1,5 @@
 package nl.fhict.s6.serviceauthentication.service;
-
-import nl.fhict.s6.libraryrest.service.CrudService;
+;
 import nl.fhict.s6.serviceauthentication.datamodels.UserDao;
 import nl.fhict.s6.serviceauthentication.repository.UserRepository;
 import org.springframework.stereotype.Service;

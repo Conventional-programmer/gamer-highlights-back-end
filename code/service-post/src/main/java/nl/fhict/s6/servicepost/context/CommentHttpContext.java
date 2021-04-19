@@ -1,12 +1,10 @@
 package nl.fhict.s6.servicepost.context;
 
 import nl.fhict.s6.servicepost.dto.CommentDto;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+
 
 public class CommentHttpContext extends BaseHttpContext<CommentDto,Long> {
 

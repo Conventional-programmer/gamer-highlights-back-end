@@ -8,6 +8,8 @@ import javax.persistence.*;
 @Table(name = "post")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PostDao extends EntityDao {
+    @Column(name = "userId")
+    Long userId;
     @Column(name = "imageUrl")
     private String imageUrl;
     @Column(name = "description")
@@ -18,13 +20,13 @@ public class PostDao extends EntityDao {
     public PostDao() {
     }
 
-    public PostDao(Long id, String imageUrl, String description, int likes) {
+    public PostDao(Long id, Long userId, String imageUrl, String description, int likes) {
         super(id);
+        this.userId = userId;
         this.imageUrl = imageUrl;
         this.description = description;
         this.likes = likes;
     }
-
 
     public String getImageUrl() {
         return imageUrl;

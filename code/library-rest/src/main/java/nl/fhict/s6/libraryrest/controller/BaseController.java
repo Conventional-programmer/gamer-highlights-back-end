@@ -2,6 +2,7 @@ package nl.fhict.s6.libraryrest.controller;
 
 import nl.fhict.s6.libraryrest.converters.DaoConverter;
 import nl.fhict.s6.libraryrest.datamodels.EntityDao;
+import nl.fhict.s6.libraryrest.exception.NoObjectById;
 import nl.fhict.s6.libraryrest.service.CrudService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +37,21 @@ public class BaseController <Dao extends EntityDao,Dto> {
         return ResponseEntity.ok().build();
     }
     @PostMapping("")
-    public ResponseEntity post(@ModelAttribute() Dto dto)
+    public ResponseEntity post(@RequestBody Dto dto)
     {
         Dao dao = daoConverter.objectToObjectDao(dto);
         crudService.save(dao);
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("")
+    public ResponseEntity put(@RequestBody Dto dto)
+    {
+        Dao dao = daoConverter.objectToObjectDao(dto);
+        try {
+            crudService.update(dao);
+        } catch (NoObjectById noObjectById) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().build();
     }
 }
