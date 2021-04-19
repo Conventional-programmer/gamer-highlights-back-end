@@ -8,8 +8,8 @@ authentication_service_build:
     stage: build
     only:
         changes:
-            - "code/service-authentication/*"
-    script: "mvn clean package -f code/service-authentication/pom.xml"
+            - "code/service-authentication-jwt/*"
+    script: "mvn clean package -f code/service-authentication-jwt/pom.xml"
     artifacts:
         paths:
             - code/service-likes/target/*.jar
