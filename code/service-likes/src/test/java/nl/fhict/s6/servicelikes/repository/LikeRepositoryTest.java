@@ -1,6 +1,8 @@
 package nl.fhict.s6.servicelikes.repository;
 
+import nl.fhict.s6.servicelikes.config.generation.UserDaoGeneration;
 import nl.fhict.s6.servicelikes.datamodels.LikeDao;
+import nl.fhict.s6.servicelikes.datamodels.UserDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @DirtiesContext
 @DataJpaTest
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 public class LikeRepositoryTest {
     @Autowired
     private EntityManager entityManager;
@@ -29,33 +31,34 @@ public class LikeRepositoryTest {
     @Test
     void findById() {
         LikeDao likeDao = new LikeDao();
-        likeDao.setLikes(500);
+        likeDao.setUserDao(new UserDaoGeneration().generateUserDaos().get(0));
         LikeDao tryingToFind = entityManager.merge(likeDao);
-        Optional<LikeDao> found = likeRepository.findById(tryingToFind.getPostId());
+        Optional<LikeDao> found = likeRepository.findById(tryingToFind.getId());
         assertTrue(found.isPresent());
         assertEquals(found.get().getPostId(),tryingToFind.getPostId());
-        assertEquals(found.get().getLikes(),500);
+        assertEquals(found.get().getUserDao().getId(),1L);
     }
     @Test
     void save() {
         LikeDao likeDao = new LikeDao();
-        likeDao.setLikes(500);
+        likeDao.setUserDao(new UserDaoGeneration().generateUserDaos().get(0));
         LikeDao tryingToFind =likeRepository.save(likeDao);
-        LikeDao found  = entityManager.find(LikeDao.class,tryingToFind.getPostId());
+        LikeDao found  = entityManager.find(LikeDao.class,tryingToFind.getId());
         assertNotNull(found);
-        assertEquals(500,found.getLikes());
+        assertEquals("bert",found.getUserDao().getUsername());
 
     }
     @Test
     void update() {
         LikeDao likeDao = new LikeDao();
-        likeDao.setLikes(500);
+        likeDao.setPostId(1L);
+        likeDao.setUserDao(new UserDaoGeneration().generateUserDaos().get(0));
+        LikeDao saved = likeRepository.save(likeDao);
+        LikeDao found  = likeRepository.getOne(saved.getId());
+        assertEquals(likeDao.getUserDao().getId(), found.getUserDao().getId());
+        likeDao.setUserDao(new UserDaoGeneration().generateUserDaos().get(1));
         likeRepository.save(likeDao);
-        LikeDao found  = likeRepository.getOne(1L);
-        assertEquals(likeDao.getLikes(), found.getLikes());
-        likeDao.setLikes(300);
-        likeRepository.save(likeDao);
-        assertEquals(likeDao.getLikes(), found.getLikes());
+        assertEquals(likeDao.getUserDao().getId(), found.getUserDao().getId());
         entityManager.flush();
     }
 }

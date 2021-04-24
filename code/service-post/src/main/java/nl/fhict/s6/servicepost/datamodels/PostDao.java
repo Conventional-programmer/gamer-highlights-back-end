@@ -3,6 +3,7 @@ package nl.fhict.s6.servicepost.datamodels;
 import nl.fhict.s6.libraryrest.datamodels.EntityDao;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "Post")
 @Table(name = "post")
@@ -14,13 +15,17 @@ public class PostDao extends EntityDao {
     private String imageUrl;
     @Column(name = "description")
     private String description;
+    @ElementCollection
     @Column(name = "likes")
-    private int likes;
+    private List<Long> likes;
+    @ElementCollection
+    @Column(name = "comment")
+    private List<Long> commentIds;
 
     public PostDao() {
     }
 
-    public PostDao(Long id, Long userId, String imageUrl, String description, int likes) {
+    public PostDao(Long id, Long userId, String imageUrl, String description, List<Long> likes) {
         super(id);
         this.userId = userId;
         this.imageUrl = imageUrl;
@@ -44,11 +49,11 @@ public class PostDao extends EntityDao {
         this.description = description;
     }
 
-    public int getLikes() {
+    public List<Long> getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(List<Long> likes) {
         this.likes = likes;
     }
 }

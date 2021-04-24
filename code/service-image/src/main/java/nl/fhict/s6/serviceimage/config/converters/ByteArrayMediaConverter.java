@@ -14,7 +14,6 @@ public class ByteArrayMediaConverter extends ByteArrayHttpMessageConverter {
         List<MediaType> list = new ArrayList<MediaType>();
         list.add(MediaType.IMAGE_JPEG);
         list.add(MediaType.IMAGE_PNG);
-        list.add(MediaType.APPLICATION_OCTET_STREAM);
         return list;
     }
 }

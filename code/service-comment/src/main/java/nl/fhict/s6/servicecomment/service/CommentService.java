@@ -6,6 +6,8 @@ import nl.fhict.s6.servicecomment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentService extends CrudService<CommentDao> {
     private CommentRepository commentRepository;
@@ -14,8 +16,12 @@ public class CommentService extends CrudService<CommentDao> {
         super(commentRepository);
         this.commentRepository = commentRepository;
     }
-    public void k(CommentDao commentDao)
+    public List<CommentDao> getAllCommentsByCommentIds(List<Long> commentIds)
     {
-        commentRepository.save(commentDao);
+        return commentRepository.findAllById(commentIds);
+    }
+
+    public List<CommentDao> getAllCommentsByPostId(Long postId) {
+        return commentRepository.findAllByPostId(postId);
     }
 }

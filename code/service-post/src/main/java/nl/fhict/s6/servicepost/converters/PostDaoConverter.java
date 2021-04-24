@@ -13,7 +13,7 @@ public class PostDaoConverter extends BaseDaoConverter<PostDao, PostDto> {
         postDao.setId(object.getId());
         postDao.setDescription(object.getDescription());
         postDao.setImageUrl(object.getImageUrl());
-        postDao.setLikes(object.getLikes());
+        //postDao.setLikes(object.getLikes());
         return postDao;
     }
 
@@ -22,7 +22,7 @@ public class PostDaoConverter extends BaseDaoConverter<PostDao, PostDto> {
         PostDto postDto = new PostDto();
         postDto.setId(daoObject.getId());
         postDto.setImageUrl(daoObject.getImageUrl());
-        postDto.setLikes(daoObject.getLikes());
+        //postDto.setLikes(daoObject.getLikes());
         postDto.setDescription(daoObject.getDescription());
         return postDto;
     }

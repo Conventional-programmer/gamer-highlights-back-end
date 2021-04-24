@@ -40,6 +40,7 @@ public class  PostController extends BaseController<PostDao,PostDto> {
         PostDao postDao = postService.findById(id);
         PostDto postDto = postDaoConverter.objectDaoToObject(postDao);
         postDto.setCommentDtos(commentService.getCommentDtos(postDao.getId()));
+        postDto.setLikes(likeService.getAllLikesByPostId(postDao.getId()));
         return new ResponseEntity(postDto, HttpStatus.OK);
     }
     @RequestMapping("/user/{id}")
@@ -48,7 +49,7 @@ public class  PostController extends BaseController<PostDao,PostDto> {
         List<PostDao> postDaos = postService.getPostsByUserId(id);
         List<PostDto> postDtos = postDaoConverter.objectDaosToObjects(postDaos);
         for (PostDto postDto: postDtos) {
-            postDto.setCommentDtos(commentService.getCommentDtos(postDto.getId()));
+            postDto.setCommentDtos(commentService.getCommentDtos(null));
         }
         return new ResponseEntity(postDtos, HttpStatus.OK);
     }

@@ -14,14 +14,14 @@ public class LikeService {
     public LikeService(LikeRepository likeRepository) {
         this.likeRepository = likeRepository;
     }
-    public Integer getLikesByPostId(Long postId)
+    public LikeDao getLikesByPostId(Long postId)
     {
         Optional<LikeDao> likeDao = likeRepository.findById(postId);
         if(likeDao.isPresent())
         {
-            return likeDao.get().getLikes();
+            return likeDao.get();
         }
-        return 0;
+        return null;
     }
     public LikeDao getLikeDaoByPostId(Long postId)
     {

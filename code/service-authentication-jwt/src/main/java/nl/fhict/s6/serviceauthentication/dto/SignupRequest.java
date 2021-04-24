@@ -1,4 +1,4 @@
-package nl.fhict.s6.serviceauthentication.datamodels;
+package nl.fhict.s6.serviceauthentication.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

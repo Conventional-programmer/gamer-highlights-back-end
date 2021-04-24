@@ -14,6 +14,6 @@ public class CommentService extends HttpBaseService<CommentDto,Long> {
     }
     public List<CommentDto> getCommentDtos(Long postId)
     {
-        return commentHttpContext.getCommentDtos(postId);
+        return commentHttpContext.getCommentsByPostId(postId);
     }
 }

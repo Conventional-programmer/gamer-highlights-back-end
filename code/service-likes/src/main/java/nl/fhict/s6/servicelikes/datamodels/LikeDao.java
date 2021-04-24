@@ -1,25 +1,23 @@
 package nl.fhict.s6.servicelikes.datamodels;
 
-import com.sun.istack.NotNull;
+import nl.fhict.s6.libraryrest.datamodels.EntityDao;
 
 import javax.persistence.*;
 
 @Entity(name = "Likes")
 @Table(name = "likes")
-public class LikeDao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class LikeDao extends EntityDao {
     @Column(name = "post_id")
     private Long postId;
-    @Column(name = "likes")
-    private Integer likes;
+    @ManyToOne
+    private UserDao userDao;
 
     public LikeDao() {
     }
 
-    public LikeDao(Long postId, Integer likes) {
+    public LikeDao(Long postId, UserDao userDao) {
         this.postId = postId;
-        this.likes = likes;
+        this.userDao = userDao;
     }
 
     public Long getPostId() {
@@ -30,11 +28,11 @@ public class LikeDao {
         this.postId = postId;
     }
 
-    public Integer getLikes() {
-        return likes;
+    public UserDao getUserDao() {
+        return userDao;
     }
 
-    public void setLikes(Integer likes) {
-        this.likes = likes;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }

@@ -2,15 +2,14 @@ package nl.fhict.s6.servicecomment.datamodels;
 
 import nl.fhict.s6.libraryrest.datamodels.EntityDao;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "Comment")
 @Table(name = "comment")
 public class CommentDao extends EntityDao {
-    @OneToOne
+    @Column(name = "postId")
+    private Long postId;
+    @ManyToOne
     private UserDao userDao;
     @Column(name = "comment")
     private String comment;

@@ -8,15 +8,7 @@ public class PostDto {
     private String imageUrl;
     private String description;
     private List<CommentDto> commentDtos;
-    private int likes;
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
+    private List<LikeDto> likes;
 
     public PostDto() {
     }
@@ -59,5 +51,13 @@ public class PostDto {
 
     public void setCommentDtos(List<CommentDto> commentDtos) {
         this.commentDtos = commentDtos;
+    }
+
+    public List<LikeDto> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<LikeDto> likes) {
+        this.likes = likes;
     }
 }

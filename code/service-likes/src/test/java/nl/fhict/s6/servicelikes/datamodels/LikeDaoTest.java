@@ -1,5 +1,6 @@
 package nl.fhict.s6.servicelikes.datamodels;
 
+import nl.fhict.s6.servicelikes.config.generation.UserDaoGeneration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,7 @@ public class LikeDaoTest {
     @BeforeEach
     void setUp() {
         likeDao = new LikeDao();
-        likeDao.setLikes(500);
+        likeDao.setUserDao(new UserDaoGeneration().generateUserDaos().get(0));
         likeDao.setPostId(1L);
     }
 
@@ -31,14 +32,14 @@ public class LikeDaoTest {
     }
 
     @Test
-    void getLikes() {
-        assertEquals(likeDao.getLikes(),500);
+    void getUserDao() {
+        assertEquals(likeDao.getUserDao().getUsername(),"bert");
     }
 
     @Test
-    void setLikes() {
-        likeDao.setLikes(550);
-        assertEquals(likeDao.getLikes(),550);
+    void setUserDao() {
+        likeDao.setUserDao(new UserDaoGeneration().generateUserDaos().get(1));
+        assertEquals(likeDao.getUserDao().getUsername(),"gert");
     }
 
 }

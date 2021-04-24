@@ -2,7 +2,9 @@ package nl.fhict.s6.serviceauthentication.controller;
 
 import nl.fhict.s6.serviceauthentication.datamodels.*;
 import nl.fhict.s6.serviceauthentication.dto.JwtResponse;
+import nl.fhict.s6.serviceauthentication.dto.LoginRequest;
 import nl.fhict.s6.serviceauthentication.dto.MessageResponse;
+import nl.fhict.s6.serviceauthentication.dto.SignupRequest;
 import nl.fhict.s6.serviceauthentication.event.UserCreatedEvent;
 import nl.fhict.s6.serviceauthentication.security.jwt.JwtUtils;
 import nl.fhict.s6.serviceauthentication.security.services.UserDetailsImpl;
