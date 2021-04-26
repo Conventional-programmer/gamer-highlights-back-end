@@ -209,4 +209,4 @@ post-service-sonar:
         name: maven:3.6-jdk-11
     stage: analysis
     script:
-    - mvn sonar:sonar \   -Dsonar.projectKey=gamerhighlights-post \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.login=8a7d052bfbe10e6062cc0fa8e40129076db34e8f
+    -mvn sonar:sonar -Dsonar.projectKey=gamer-highlights-post -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=8dc7591f4f22e2273775d75a8a5ec23e2134547e
