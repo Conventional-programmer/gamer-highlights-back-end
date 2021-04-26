@@ -42,6 +42,7 @@ authentication-service-sonar:
     script:
     - cd code/service-authentication-jwt
     - mvn sonar:sonar \ -Dsonar.projectKey=gamerhighlight-auth \ -Dsonar.host.url=http://host.docker.internal:9000 \-Dsonar.login=94c4e71e0432ecf8837fa8ec28f36f92b0c38f96
+        - mvn sonar:sonar \   -Dsonar.projectKey=gamerhighlights-service-authentication \   -Dsonar.host.url=http://host.docker.internal:9000 \   -Dsonar.login=f78bf766b1b5edc0aa28620d41865c3fd7b472b
 user_service_build:
     image:
         name: maven:3.6-jdk-11
