@@ -199,7 +199,7 @@ post-service-deploy:
 post-service-sonar:
     image:
         name: docker:latest
-    stage: deploy
+    stage: analysis
     script:
     - mvn sonar:sonar \   -Dsonar.projectKey=gamerhighlights-post \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.login=8a7d052bfbe10e6062cc0fa8e40129076db34e8f
     only:
