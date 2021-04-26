@@ -38,6 +38,9 @@ authentication-service-deploy:
 authentication-service-sonar:
     image:
         name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "codeservice-authentication-jwt/*"
     stage: analysis
     script:
     - cd code/service-authentication-jwt
@@ -75,6 +78,17 @@ user-service-deploy:
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-user"
     only:
     - main
+user-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "code/service-user/*"
+    stage: analysis
+    script:
+    - cd code/service-user
+    - mvn package
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_user -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=0800fb60d949e4ac5e4592e697dcf52a558a2b32
 comment_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -205,6 +219,9 @@ post-service-deploy:
     only:
     - main
 post-service-sonar:
+    only:
+        changes:
+            - "code/service-post/*"
     image:
         name: maven:3.6-jdk-11
     stage: analysis
