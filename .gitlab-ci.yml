@@ -121,7 +121,17 @@ comment-service-deploy:
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-comment"
     only:
     - main
-
+comment-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "code/service-comment/*"
+    stage: analysis
+    script:
+    - cd code/service-comment
+    - mvn package
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_comment -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=8b5c23eadc9ffd0b6b0d667aaba3d61ea665d98b
 image_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -154,6 +164,17 @@ image-service-deploy:
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
     only:
     - main
+image-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "code/service-likes/*"
+    stage: analysis
+    script:
+    - cd code/service-likes
+    - mvn package
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_image -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=a400efa988c4cdb213d7dbdc571834c22569241d
 like_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -186,6 +207,17 @@ like-service-deploy:
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
     only:
     - main
+likes-service-sonar:
+    only:
+        changes:
+            - "code/service-likes/*"
+    image:
+        name: maven:3.6-jdk-11
+    stage: analysis
+    script:
+    - cd code/service-likes
+    - mvn package 
+    - mvn sonar:sonar -Dsonar.projectKey=game-highlights_likes -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=ec6babee6541205e94fae0b4e5afdca99ec081d4
 post_service_build:
     image:
         name: maven:3.6-jdk-11
