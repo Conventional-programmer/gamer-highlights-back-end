@@ -1,6 +1,6 @@
 stages:
-    - test
     - analysis
+    - test
     - build
     - deploy
 authentication_service_build:
@@ -35,6 +35,12 @@ authentication-service-deploy:
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-authentication"
     only:
     - main
+authentication-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    stage: analysis
+    script:
+    - mvn sonar:sonar \   -Dsonar.projectKey=gamerhighlights-service-authentication \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.login=f78bf766b1b5edc0aa28620d41865c3fd7b472bf
 user_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -198,9 +204,7 @@ post-service-deploy:
     - main
 post-service-sonar:
     image:
-        name: docker:latest
+        name: maven:3.6-jdk-11
     stage: analysis
     script:
     - mvn sonar:sonar \   -Dsonar.projectKey=gamerhighlights-post \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.login=8a7d052bfbe10e6062cc0fa8e40129076db34e8f
-    only:
-    - main
