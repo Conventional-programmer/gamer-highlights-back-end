@@ -1,4 +1,5 @@
 stages:
+    - analysis
     - test
     - build
     - deploy
@@ -8,8 +9,8 @@ authentication_service_build:
     stage: build
     only:
         changes:
-            - "code/service-authentication/*"
-    script: "mvn clean package -f code/service-authentication/pom.xml"
+            - "code/service-authentication-jwt/*"
+    script: "mvn clean package -f code/service-authentication-jwt/pom.xml"
     artifacts:
         paths:
             - code/service-likes/target/*.jar
@@ -20,18 +21,31 @@ authentication_service_test:
     stage: test
     only:
         changes:
-            - "code/service-authentication/*"
+            - "codeservice-authentication-jwt/*"
     script:
-        - cd code/service-authentication
+        - cd code/service-authentication-jwt
         - mvn test
 authentication-service-deploy:
-  stage: deploy
-  script:
-    - docker build code/service-authentication -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:latest"
+    image:
+        name: docker:latest
+    stage: deploy
+    script:
+    - docker build code/service-authentication-jwt -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-authentication"
-  only:
-    - master
+    only:
+    - main
+authentication-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "codeservice-authentication-jwt/*"
+    stage: analysis
+    script:
+    - cd code/service-authentication-jwt
+    - mvn package
+    - mvn sonar:sonar -Dsonar.projectKey=gamerhighlight-auth -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=94c4e71e0432ecf8837fa8ec28f36f92b0c38f96
 user_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -55,13 +69,26 @@ user_service_test:
         - cd code/service-user
         - mvn test
 user-service-deploy:
-  stage: deploy
-  script:
+    image:
+        name: docker:latest
+    stage: deploy
+    script:
     - docker build code/service-user -t "$CI_REGISTRY_IMAGE_PREFIX/service-user:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-user"
-  only:
-    - master
+    only:
+    - main
+user-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "code/service-user/*"
+    stage: analysis
+    script:
+    - cd code/service-user
+    - mvn package
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_user -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=0800fb60d949e4ac5e4592e697dcf52a558a2b32
 comment_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -85,14 +112,26 @@ comment_service_test:
         - cd code/service-comment
         - mvn test
 comment-service-deploy:
-  stage: deploy
-  script:
+    image:
+        name: docker:latest
+    stage: deploy
+    script:
     - docker build code/service-comment -t "$CI_REGISTRY_IMAGE_PREFIX/service-comment:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-comment"
-  only:
-    - master
-
+    only:
+    - main
+comment-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "code/service-comment/*"
+    stage: analysis
+    script:
+    - cd code/service-comment
+    - mvn package
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_comment -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=8b5c23eadc9ffd0b6b0d667aaba3d61ea665d98b
 image_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -116,13 +155,26 @@ image_service_test:
         - cd code/service-likes
         - mvn test
 image-service-deploy:
-  stage: deploy
-  script:
+    image:
+        name: docker:latest
+    stage: deploy
+    script:
     - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
-  only:
-    - master
+    only:
+    - main
+image-service-sonar:
+    image:
+        name: maven:3.6-jdk-11
+    only:
+        changes:
+            - "code/service-likes/*"
+    stage: analysis
+    script:
+    - cd code/service-likes
+    - mvn package
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_image -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=a400efa988c4cdb213d7dbdc571834c22569241d
 like_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -146,13 +198,26 @@ like_service_test:
         - cd code/service-likes
         - mvn test
 like-service-deploy:
-  stage: deploy
-  script:
+    image:
+        name: docker:latest
+    stage: deploy
+    script:
     - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
-  only:
-    - master
+    only:
+    - main
+likes-service-sonar:
+    only:
+        changes:
+            - "code/service-likes/*"
+    image:
+        name: maven:3.6-jdk-11
+    stage: analysis
+    script:
+    - cd code/service-likes
+    - mvn package 
+    - mvn sonar:sonar -Dsonar.projectKey=game-highlights_likes -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=ec6babee6541205e94fae0b4e5afdca99ec081d4
 post_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -176,11 +241,23 @@ post_service_test:
         - cd code/service-post
         - mvn test
 post-service-deploy:
-  stage: deploy
-  script:
+    image:
+        name: docker:latest
+    stage: deploy
+    script:
     - docker build code/service-post -t "$CI_REGISTRY_IMAGE_PREFIX/service-post:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-post"
-  only:
-    - master
-
+    only:
+    - main
+post-service-sonar:
+    only:
+        changes:
+            - "code/service-post/*"
+    image:
+        name: maven:3.6-jdk-11
+    stage: analysis
+    script:
+    - cd code/service-post
+    - mvn package 
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights-post -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=8dc7591f4f22e2273775d75a8a5ec23e2134547e
