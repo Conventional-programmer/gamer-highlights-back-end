@@ -8,6 +8,7 @@ import nl.fhict.s6.servicecomment.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,13 +25,13 @@ public class CommentController extends BaseController<CommentDao, CommentDto> {
         this.commentService = commentService;
         this.commentDaoConverter = commentDaoConverter;
     }
-    @RequestMapping("/post/{id}")
+    @GetMapping("/post/{id}")
     public ResponseEntity<List<CommentDto>> getCommentsByUserId(@PathVariable("id")Long postId)
     {
         List<CommentDao> commentsFound = commentService.getAllCommentsByPostId(postId);
         return new ResponseEntity<>(commentDaoConverter.objectDaosToObjects(commentsFound), HttpStatus.OK);
     }
-    @RequestMapping("")
+    @GetMapping("")
     public ResponseEntity<List<CommentDto>> getCommentsByCommentIds(@RequestParam("ids")List<Long> commentIds)
     {
         List<CommentDao> commentsFound = commentService.getAllCommentsByCommentIds(commentIds);

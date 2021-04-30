@@ -30,7 +30,7 @@ public class ServiceAuthenticationApplication {
 	public CommandLineRunner demo(UserRepository userRepository)
 	{
 		if (Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
-			return (args) -> {
+			return args -> {
 				List<UserDao> userDaos = new UserDaoGeneration().generateUserDaos();
 				userRepository.saveAll(userDaos);
 			};

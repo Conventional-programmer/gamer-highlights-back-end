@@ -12,7 +12,7 @@ public class UserDao extends EntityDao {
     @Column(name = "username")
     private String username;
     @Column(name = "password")
-    String password;
+    private String password;
 
     public UserDao() {
     }
