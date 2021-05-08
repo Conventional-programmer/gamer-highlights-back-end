@@ -30,9 +30,9 @@ authentication-service-deploy:
         name: docker:latest
     stage: deploy
     script:
-    - docker build code/service-authentication-jwt -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-authentication:latest"
+    - docker build code/service-authentication-jwt -t "$CI_REGISTRY_IMAGE_PREFIX/authentication-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/authentication-service:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-authentication"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/authentication-service"
     only:
     - main
 authentication-service-sonar:
@@ -73,9 +73,9 @@ user-service-deploy:
         name: docker:latest
     stage: deploy
     script:
-    - docker build code/service-user -t "$CI_REGISTRY_IMAGE_PREFIX/service-user:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker build code/service-user -t "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-user-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-user-service:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-user"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-user-service"
     only:
     - main
 user-service-sonar:
@@ -116,9 +116,9 @@ comment-service-deploy:
         name: docker:latest
     stage: deploy
     script:
-    - docker build code/service-comment -t "$CI_REGISTRY_IMAGE_PREFIX/service-comment:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker build code/service-comment -t "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-comment-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-comment"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-comment-service"
     only:
     - main
 comment-service-sonar:
@@ -159,9 +159,9 @@ image-service-deploy:
         name: docker:latest
     stage: deploy
     script:
-    - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service"
     only:
     - main
 image-service-sonar:
@@ -202,9 +202,9 @@ like-service-deploy:
         name: docker:latest
     stage: deploy
     script:
-    - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-likes"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service"
     only:
     - main
 likes-service-sonar:
@@ -245,9 +245,9 @@ post-service-deploy:
         name: docker:latest
     stage: deploy
     script:
-    - docker build code/service-post -t "$CI_REGISTRY_IMAGE_PREFIX/service-post:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/service-likes:latest"
+    - docker build code/service-post -t "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-post-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-post-service:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/service-post"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-post-service"
     only:
     - main
 post-service-sonar:
