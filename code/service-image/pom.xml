@@ -12,7 +12,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<maven.compiler.version>3.8.1</maven.compiler.version>
-		<spring.maven.version>2.4.3</spring.maven.version>
+		<spring.maven.version>2.4.4</spring.maven.version>
 		<java.version>11</java.version>
 	</properties>
 	<dependencyManagement>
@@ -66,6 +66,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring.maven.version}</version>
+				<configuration>
+					<mainClass>nl.fhict.s6.serviceauthentication.ServiceAuthenticationApplication</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

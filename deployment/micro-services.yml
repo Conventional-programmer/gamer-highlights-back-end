@@ -77,7 +77,7 @@ spec:
     spec:
       containers:
       - name: authentication-service
-        image: service-authentication:0.0.1-SNAPSHOT
+        image: caskamp/authentication-service
         resources:
           requests:
             memory: "512Mi"
@@ -125,7 +125,7 @@ spec:
             limits:
               memory: "1028Mi"
               cpu: "500m"
-        image: service-user:0.0.1-SNAPSHOT
+        image: caskamp/gamehighlights-user-service
         ports:
         - containerPort: 9001
 ---
@@ -166,7 +166,7 @@ spec:
             limits:
               memory: "1028Mi"
               cpu: "500m"
-        image: service-post:0.0.1-SNAPSHOT
+        image: caskamp/gamehighlights-post-service
         ports:
         - containerPort: 9002
 ---
@@ -207,7 +207,7 @@ spec:
             limits:
               memory: "1028Mi"
               cpu: "500m"
-        image: service-comment:0.0.1-SNAPSHOT
+        image: caskamp/gamehighlights-comment-service
         ports:
         - containerPort: 9000
 ---
@@ -248,7 +248,7 @@ spec:
               limits:
                 memory: "1028Mi"
                 cpu: "500m"
-        image: service-post:0.0.1-SNAPSHOT
+        image: caskamp/gamehighlights-image-service
         ports:
         - containerPort: 9000
 ---
@@ -289,7 +289,48 @@ spec:
               limits:
                 memory: "1028Mi"
                 cpu: "500m"
-        image: service-likes:0.0.1-SNAPSHOT
+        image: caskamp/gamehiglights-like-service
         ports:
         - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue
+  labels:
+    run: vue
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: vue-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-service
+spec:
+  selector:
+    matchLabels:
+      run: vue-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: vue-service
+    spec:
+      containers:
+      - name: vue-service
+        resources:
+              requests:
+                memory: "512Mi"
+                cpu: "250m"
+              limits:
+                memory: "1028Mi"
+                cpu: "500m"
+        image: caskamp/game-highlights-vue
+        ports:
+        - containerPort: 80
         
