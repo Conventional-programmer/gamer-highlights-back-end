@@ -67,7 +67,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring.maven.version}</version>
 				<configuration>
-					<mainClass>nl.fhict.s6.serviceauthentication.ServiceAuthenticationApplication</mainClass>
+					<mainClass>nl.fhict.s6.serviceimage.ServiceImageApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>

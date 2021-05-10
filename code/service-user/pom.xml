@@ -81,7 +81,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring.maven.version}</version>
 				<configuration>
-					<mainClass>nl.fhict.s6.servicepost.ServicePostApplication</mainClass>
+					<mainClass>nl.fhict.s6.serviceuser.ServiceUserApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
