@@ -160,9 +160,9 @@ image-service-deploy:
         name: docker:latest
     stage: deploy
     script:
-    - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service:latest"
+    - docker build code/service-likes -t "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-image-service:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-image-service:latest"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/gamehiglights-like-service"
+    - docker push --all-tags "$CI_REGISTRY_IMAGE_PREFIX/gamehighlights-image-service"
     only:
     - main
 image-service-sonar:
