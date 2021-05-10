@@ -16,8 +16,8 @@
 	</properties>
 	<repositories>
 		<repository>
-			<id>local-repo</id>
-			<url>file:${project.basedir}/lib</url>
+			<id>localrepository</id>
+			<url>file:${project.basedir}/libraries/</url>
 		</repository>
 	</repositories>
 	<dependencyManagement>
