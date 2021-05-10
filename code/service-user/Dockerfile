@@ -2,8 +2,9 @@
 # Build stage
 #
 FROM maven:3.6.0-jdk-11-slim AS build
+COPY /libraries/ /home/app/libraries
 COPY src /home/app/src
-COPY ../libraries/ /home/app/libraries
+COPY /libraries/ /home/app/libraries
 COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package
 
