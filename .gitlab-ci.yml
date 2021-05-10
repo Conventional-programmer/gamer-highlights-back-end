@@ -1,8 +1,9 @@
 stages:
-    - analysis
-    - test
-    - build
     - deploy
+    - test
+    - analysis
+    - build
+
 authentication_service_build:
     image:
         name: maven:3.6-jdk-11
