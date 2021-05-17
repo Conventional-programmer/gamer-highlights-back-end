@@ -14,6 +14,6 @@ public class ImageService extends CrudService<ImageDao> {
     }
     public ImageDao getImageDaoByContentTypeAndName(ContentType contentType, String name)
     {
-
+        return  imageRepository.findByContentTypeAndName(contentType,name);
     }
 }

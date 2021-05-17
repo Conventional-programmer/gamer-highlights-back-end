@@ -35,11 +35,11 @@ spec:
         image: rabbitmq:3.8-management
         resources:
           requests:
+            memory: "64Mi"
+            cpu: "128m"
+          limits:
             memory: "128Mi"
             cpu: "250m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
         ports:
         - containerPort: 5672
           name: mq1
@@ -78,13 +78,14 @@ spec:
       containers:
       - name: authentication-service
         image: caskamp/authentication-service
+        imagePullPolicy: Always
         resources:
           requests:
             memory: "512Mi"
-            cpu: "250m"
+            cpu: "125m"
           limits:
             memory: "1028Mi"
-            cpu: "500m"
+            cpu: "250m"
         ports:
         - containerPort: 9000
 ---
@@ -121,11 +122,12 @@ spec:
         resources:
             requests:
               memory: "512Mi"
-              cpu: "250m"
+              cpu: "125m"
             limits:
               memory: "1028Mi"
-              cpu: "500m"
+              cpu: "250m"
         image: caskamp/gamehighlights-user-service
+        imagePullPolicy: Always
         ports:
         - containerPort: 9001
 ---
@@ -161,12 +163,13 @@ spec:
       - name: post-service
         resources:
             requests:
+              memory: "128Mi"
+              cpu: "125m"
+            limits:
               memory: "512Mi"
               cpu: "250m"
-            limits:
-              memory: "1028Mi"
-              cpu: "500m"
         image: caskamp/gamehighlights-post-service
+        imagePullPolicy: Always
         ports:
         - containerPort: 9002
 ---
@@ -202,12 +205,13 @@ spec:
       - name: comment-service
         resources:
             requests:
+              memory: "256Mi"
+              cpu: "125m"
+            limits:
               memory: "512Mi"
               cpu: "250m"
-            limits:
-              memory: "1028Mi"
-              cpu: "500m"
-        image: caskamp/gamehighlights-comment-service
+        image: caskamp/gamehighlights-comment-service:main
+        imagePullPolicy: Always
         ports:
         - containerPort: 9000
 ---
@@ -243,12 +247,13 @@ spec:
       - name: image-service
         resources:
               requests:
+                memory: "128Mi"
+                cpu: "125m"
+              limits:
                 memory: "512Mi"
                 cpu: "250m"
-              limits:
-                memory: "1028Mi"
-                cpu: "500m"
         image: caskamp/gamehighlights-image-service
+        imagePullPolicy: Always
         ports:
         - containerPort: 9000
 ---
@@ -284,12 +289,13 @@ spec:
       - name: likes-service
         resources:
               requests:
+                memory: "128Mi"
+                cpu: "125m"
+              limits:
                 memory: "512Mi"
                 cpu: "250m"
-              limits:
-                memory: "1028Mi"
-                cpu: "500m"
         image: caskamp/gamehiglights-like-service
+        imagePullPolicy: Always
         ports:
         - containerPort: 9000
 ---
@@ -300,9 +306,10 @@ metadata:
   labels:
     run: vue
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
+    targetPort: 80
     protocol: TCP
   selector:
     run: vue-service
@@ -325,12 +332,13 @@ spec:
       - name: vue-service
         resources:
               requests:
-                memory: "512Mi"
-                cpu: "250m"
+                memory: "256Mi"
+                cpu: "125m"
               limits:
-                memory: "1028Mi"
-                cpu: "500m"
+                memory: "1024Mi"
+                cpu: "250m"
         image: caskamp/game-highlights-vue
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         

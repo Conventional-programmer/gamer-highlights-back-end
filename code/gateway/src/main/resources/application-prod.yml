@@ -1,0 +1,37 @@
+server:
+  port: 80
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: authentication
+          uri: http://service-authentication:9000/auth
+          predicates:
+            - Path=/auth/
+        - id: user
+          uri: http://service-user:9001/user
+          predicates:
+            - Path=/user/
+        - id: post
+          uri: http://service-post:9002/post
+          predicates:
+            - Path=/post/
+        - id: comment
+          uri: http://service-comment:9003/comment
+          predicates:
+            - Path=/comment/
+        - id: image
+          uri: http://service-image:9004/image
+          predicates:
+            - Path=/image/
+        - id: likes
+          uri: http://service-likes:9005/like
+          predicates:
+            - Path=/likes/
+management:
+  endpoints:
+      web:
+        exposure:
+          include: "*"
