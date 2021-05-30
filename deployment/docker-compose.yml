@@ -53,8 +53,8 @@ services:
     image: service-comment:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-comment # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-    # ports:
-    #   - 8081:9000 # <-- bind the host port 8081 to whatever is running in the container on 8080.
+    ports:
+      - 9003:9003 # <-- bind the host port 8081 to whatever is running in the container on 8080.
   # comment-mysql:
   #   image: mysql
   #   environment:
@@ -67,8 +67,6 @@ services:
     image: service-image:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-image # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-    ports:
-      - 8082:9000 # <-- bind the host port 8081 to whatever is running in the container on 8080.
   # image-mongodb:
   #   image : mongo
   #   container_name: image-mongodb
@@ -82,8 +80,6 @@ services:
     image: service-likes:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-likes # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-    ports:
-      - 8083:9000 # <-- bind the host port 8081 to whatever is running in the container on 8080.
   # likes-mysql:
   #   image: mysql
   #   environment:
