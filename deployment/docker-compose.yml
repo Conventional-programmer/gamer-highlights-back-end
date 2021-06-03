@@ -38,7 +38,7 @@ services:
     image: service-post:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-post # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-  image-mongodb:
+  post-mongodb:
     image : mongo
     container_name: post-mongodb
     environment:
