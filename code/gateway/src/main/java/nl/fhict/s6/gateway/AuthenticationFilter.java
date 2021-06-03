@@ -2,7 +2,6 @@ package nl.fhict.s6.gateway;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-@RefreshScope
 @Component
 public class AuthenticationFilter implements GatewayFilter {
 
@@ -23,21 +21,28 @@ public class AuthenticationFilter implements GatewayFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
+            System.out.println(exchange.getRequest().getPath());
+            ServerHttpRequest request = exchange.getRequest();
 
-        if (routerValidator.isSecured.test(request)) {
-            if (this.isAuthMissing(request))
-                return this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
+            if (routerValidator.isSecured.test(request)) {
+                if (this.isAuthMissing(request)) {
+                    if (this.isAuthMissing(request)) {
+                        System.out.println("Authorization in request missing unauthorized");
+                        return this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
+                    }
+                }
 
-            final String token = this.getAuthHeader(request);
+                final String token = this.getAuthHeader(request);
 
-            if (jwtUtil.isInvalid(token))
-                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
-
-            this.populateRequestWithHeaders(exchange, token);
-        }
-        return chain.filter(exchange);
+                if (jwtUtil.isInvalid(token)) {
+                    System.out.println("Authorization header invalid unauthorized");
+                    return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
+                }
+                this.populateRequestWithHeaders(exchange, token);
+            }
+            return chain.filter(exchange);
     }
+
 
 
     /*PRIVATE*/

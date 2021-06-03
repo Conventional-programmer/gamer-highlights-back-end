@@ -17,7 +17,6 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin(origins = "localhost:80", maxAge = 3600)
 @RequestMapping("/post")
 public class  PostController extends BaseController<PostDao,PostDto> {
     private PostService postService;

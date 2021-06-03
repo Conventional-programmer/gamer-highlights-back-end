@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController extends BaseController<UserDao, UserDto> {
     private final UserService userService;

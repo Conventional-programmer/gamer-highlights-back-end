@@ -10,4 +10,6 @@ public class ServiceImageApplication {
 		SpringApplication.run(ServiceImageApplication.class, args);
 	}
 
+
+
 }

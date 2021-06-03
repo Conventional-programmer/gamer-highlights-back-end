@@ -1,6 +1,11 @@
 package nl.fhict.s6.serviceimage.controller;
 
+import nl.fhict.s6.serviceimage.datamodels.ImageJpaDao;
 import nl.fhict.s6.serviceimage.dto.ContentType;
+import nl.fhict.s6.serviceimage.service.ImageJpaService;
+import nl.fhict.s6.serviceimage.service.ImageService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +23,12 @@ import java.net.URL;
 @Controller
 @RequestMapping("/image")
 public class ImageController {
+    private ImageService imageService;
+
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
+
     @GetMapping(
             value = "/{content-type}/{image}"
     )
@@ -40,5 +51,11 @@ public class ImageController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
+    }
+    @Bean
+    @Profile("dev")
+    public ImageService getImageJpaService()
+    {
+        return new ImageJpaService();
     }
 }
