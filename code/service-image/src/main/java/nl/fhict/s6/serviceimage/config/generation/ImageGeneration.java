@@ -10,7 +10,7 @@ public class ImageGeneration {
     public List<ImageJpaDao> generateImages()
     {
         List<ImageJpaDao> images = new ArrayList<>();
-        images.add(new ImageJpaDao(1L,1L,"profile-pic.jpg", ContentType.PROFILE));
+        images.add(new ImageJpaDao(1L,1L,"profilepic.jpg", ContentType.PROFILE));
         return images;
     }
 }

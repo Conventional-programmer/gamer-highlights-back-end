@@ -1,5 +1,6 @@
 package nl.fhict.s6.serviceimage.controller;
 
+import nl.fhict.s6.serviceimage.datamodels.ImageDao;
 import nl.fhict.s6.serviceimage.datamodels.ImageJpaDao;
 import nl.fhict.s6.serviceimage.dto.ContentType;
 import nl.fhict.s6.serviceimage.service.ImageJpaService;
@@ -35,6 +36,7 @@ public class ImageController {
     public ResponseEntity<byte[]> getImageWithMediaType(@PathVariable("content-type")ContentType contentType , @PathVariable("image") String imageName) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        ImageDao imageDao = imageService.findByContentTypeAndName(contentType, imageName);
         String path = String.format("/static/%s/%s.jpg",contentType.name().toLowerCase(),imageName);
         URL imageUrl = getClass().getResource(path);
         InputStream in = imageUrl.openStream();
@@ -51,11 +53,5 @@ public class ImageController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
-    }
-    @Bean
-    @Profile("dev")
-    public ImageService getImageJpaService()
-    {
-        return new ImageJpaService();
     }
 }
