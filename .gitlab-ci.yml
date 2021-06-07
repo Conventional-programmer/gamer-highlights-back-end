@@ -243,6 +243,8 @@ post_service_test:
         - cd code/service-post
         - mvn test
 post_service_intergration:
+    services:
+        - caskamp/gamehighlights-comment-service:main
     image:
         name: maven:3.6-jdk-11
     stage: test
