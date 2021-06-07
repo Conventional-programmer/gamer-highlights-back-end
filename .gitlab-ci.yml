@@ -247,7 +247,7 @@ post_service_intergration:
         - caskamp/gamehighlights-comment-service:main
     image:
         name: maven:3.6-jdk-11
-    stage: test
+    stage: intergration
     only:
         changes:
             - "code/service-post/*"
