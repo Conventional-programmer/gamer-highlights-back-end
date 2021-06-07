@@ -1,7 +1,7 @@
 stages:
+    - intergration
     - build
     - test
-    - intergration
     - analysis
     - deploy
 
