@@ -1,9 +1,9 @@
 stages:
-    - deploy
+    - build
     - test
     - intergration
     - analysis
-    - build
+    - deploy
 
 authentication_service_build:
     image:
