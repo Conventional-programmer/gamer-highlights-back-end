@@ -23,7 +23,7 @@ authentication_service_test:
     stage: test
     only:
         changes:
-            - "codeservice-authentication-jwt/*"
+            - "code/service-authentication-jwt/*"
     script:
         - cd code/service-authentication-jwt
         - mvn test
