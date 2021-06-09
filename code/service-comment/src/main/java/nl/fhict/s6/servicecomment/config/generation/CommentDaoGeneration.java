@@ -10,8 +10,8 @@ public class CommentDaoGeneration {
     public List<CommentDao> generateCommentDaos(List<UserDao> userDaos)
     {
         List<CommentDao> commentDaos = new ArrayList<>();
-        commentDaos.add(new CommentDao(1L,userDaos.get(0),"How nice!"));
-        commentDaos.add(new CommentDao(2L,userDaos.get(0),"How cool!"));
+        commentDaos.add(new CommentDao(1L,1L,userDaos.get(0),"How nice!"));
+        commentDaos.add(new CommentDao(2L,1L,userDaos.get(0),"How cool!"));
         return commentDaos;
     }
 }

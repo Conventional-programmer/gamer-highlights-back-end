@@ -17,10 +17,19 @@ public class CommentDao extends EntityDao {
     public CommentDao() {
     }
 
-    public CommentDao(Long id, UserDao userDao, String comment) {
+    public CommentDao(Long id, Long postId, UserDao userDao, String comment) {
         super(id);
+        this.postId = postId;
         this.userDao = userDao;
         this.comment = comment;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
     public String getComment() {

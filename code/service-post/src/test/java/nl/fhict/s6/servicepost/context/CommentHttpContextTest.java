@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Tag("integration")
 public class CommentHttpContextTest {
-    private CommentHttpContext commentHttpContext = new CommentHttpContext("localhost",9005,"game-highlights/api/comment");
+    private CommentHttpContext commentHttpContext = new CommentHttpContext("localhost",9003,"/comment");
     @Test
     void getCommentDtos() {
         List<CommentDto> commentDtoList = commentHttpContext.getCommentsByPostId(1L);
