@@ -23,7 +23,7 @@ authentication_service_test:
     stage: test
     only:
         changes:
-            - "codeservice-authentication-jwt/*"
+            - "code/service-authentication-jwt/*"
     script:
         - cd code/service-authentication-jwt
         - mvn test
@@ -245,6 +245,7 @@ post_service_test:
 post_service_intergration:
     services:
         - caskamp/gamehighlights-comment-service:main
+        - rabbitmq:3.8-management
     image:
         name: maven:3.6-jdk-11
     stage: intergration
