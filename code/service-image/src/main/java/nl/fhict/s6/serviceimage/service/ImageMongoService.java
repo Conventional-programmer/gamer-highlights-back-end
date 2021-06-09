@@ -7,16 +7,28 @@ import nl.fhict.s6.serviceimage.repository.ImageMongoRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+
+
 @Service
 @Profile("prod")
 public class ImageMongoService implements ImageService<ImageMongoDao> {
     private ImageMongoRepository imageMongoRepository;
+
+    public ImageMongoService(ImageMongoRepository imageMongoRepository) {
+        this.imageMongoRepository = imageMongoRepository;
+    }
+
     public ImageMongoDao update(ImageMongoDao imageMongoDao){
         return imageMongoRepository.save(imageMongoDao);
     }
 
     @Override
-    public ImageJpaDao findByContentTypeAndName(ContentType contentType, String name) {
+    public ImageMongoDao findByContentTypeAndName(ContentType contentType, String name) {
         return imageMongoRepository.findByContentTypeAndName(contentType,name);
+    }
+
+    @Override
+    public ImageMongoDao save(ImageMongoDao imageDao) {
+        return imageMongoRepository.save(imageDao);
     }
 }

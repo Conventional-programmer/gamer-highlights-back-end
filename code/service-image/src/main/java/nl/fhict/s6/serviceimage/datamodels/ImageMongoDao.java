@@ -4,14 +4,21 @@ import nl.fhict.s6.serviceimage.dto.ContentType;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import javax.persistence.Column;
-
-@Document
+@Document(collection = "image")
 public class ImageMongoDao implements ImageDao {
     @MongoId
+    private String id;
     private Long userId;
     private String name;
     private ContentType contentType;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Long getUserId() {
         return userId;

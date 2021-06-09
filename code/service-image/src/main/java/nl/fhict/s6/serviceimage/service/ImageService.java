@@ -7,5 +7,6 @@ import nl.fhict.s6.serviceimage.dto.ContentType;
 
 public interface ImageService<I extends ImageDao> {
     I update(I imageDao) throws NoObjectById;
-    ImageJpaDao findByContentTypeAndName(ContentType contentType, String name);
+    I findByContentTypeAndName(ContentType contentType, String name);
+    I save (I imageDao);
 }

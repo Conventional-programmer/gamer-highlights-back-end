@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController extends BaseController<UserDao, UserDto> {
     private final UserService userService;
@@ -41,7 +40,7 @@ public class UserController extends BaseController<UserDao, UserDto> {
         return ResponseEntity.notFound().build();
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> put(@PathVariable("id") Long userId,@ModelAttribute("userDto") UserDto userDto)
+    public ResponseEntity<Void> put(@PathVariable("id") Long userId,@RequestBody UserDto userDto)
     {
         if(userId != userDto.getUserId())
         {
