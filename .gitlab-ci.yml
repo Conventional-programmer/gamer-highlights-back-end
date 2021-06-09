@@ -1,8 +1,9 @@
 stages:
-    - deploy
+    - intergration
+    - build
     - test
     - analysis
-    - build
+    - deploy
 
 authentication_service_build:
     image:
@@ -241,6 +242,18 @@ post_service_test:
     script:
         - cd code/service-post
         - mvn test
+post_service_intergration:
+    services:
+        - caskamp/gamehighlights-comment-service:main
+    image:
+        name: maven:3.6-jdk-11
+    stage: intergration
+    only:
+        changes:
+            - "code/service-post/*"
+    script:
+        - cd code/service-post
+        - mvn integration-test
 post-service-deploy:
     image:
         name: docker:latest
