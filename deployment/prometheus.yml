@@ -1,0 +1,48 @@
+
+
+# Sample Prometheus config
+# This assumes that your Prometheus instance can access this application on localhost:8080
+
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+scrape_configs:
+  - job_name: 'spring boot gateway'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['gateway:80']
+  - job_name: 'spring boot auth'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['service-authentication:9000']
+  - job_name: 'spring boot user'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['service-user:9001']
+  - job_name: 'spring boot post'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['service-post:9002']
+  - job_name: 'spring boot comment'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['service-comment:9003']
+  - job_name: 'spring boot image'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['service-image:9004']
+  - job_name: 'spring boot like'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['service-likes:9005']
+
+
