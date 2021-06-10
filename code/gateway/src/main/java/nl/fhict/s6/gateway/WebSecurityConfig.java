@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .pathMatchers("/comment/**").permitAll()
                 .pathMatchers("/image/**").permitAll()
                 .pathMatchers("/like/**").permitAll()
+                .pathMatchers("/actuator/**").permitAll()
                 .anyExchange().authenticated();
         return http.build();
     }

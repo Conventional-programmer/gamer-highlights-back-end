@@ -24,7 +24,7 @@ public class LikeControllerComponentTest {
 
     @Test
     public void checkIfLikesAreReturned() throws Exception {
-        String url = String.format("http://localhost:%d/game-highlights/api/like/post/%d",port,1L);
+        String url = String.format("http://localhost:%d/like/post/%d",port,1L);
         Integer likes = 1533;
         ResponseEntity<LikeDto> likeResponse = this.restTemplate.exchange(url, HttpMethod.GET,null, LikeDto.class);
         assertTrue(likeResponse.getStatusCodeValue()>=200 && likeResponse.getStatusCodeValue() <=300);
