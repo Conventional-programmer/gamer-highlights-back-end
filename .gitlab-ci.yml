@@ -244,8 +244,10 @@ post_service_test:
         - mvn test
 post_service_intergration:
     services:
-        - caskamp/gamehighlights-comment-service:main
-        - rabbitmq:3.8-management
+        - name: caskamp/gamehighlights-comment-service:main
+          alias: comment-service
+        - name: rabbitmq:3.8-management
+          alias: message-broker
     image:
         name: maven:3.6-jdk-11
     stage: intergration
