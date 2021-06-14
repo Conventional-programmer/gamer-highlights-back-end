@@ -2,6 +2,7 @@ package nl.fhict.s6.servicepost.controller;
 
 import nl.fhict.s6.libraryrest.controller.BaseController;
 import nl.fhict.s6.servicepost.context.CommentHttpContext;
+import nl.fhict.s6.servicepost.context.LikeHttpContext;
 import nl.fhict.s6.servicepost.converters.PostDaoConverter;
 import nl.fhict.s6.servicepost.datamodels.PostDao;
 import nl.fhict.s6.servicepost.dto.PostDto;
@@ -28,14 +29,15 @@ public class  PostController extends BaseController<PostDao,PostDto> {
         super(postService,postDaoConverter);
         this.postDaoConverter = postDaoConverter;
         this.postService = postService;
-        commentService = new CommentService(new CommentHttpContext("localhost",8080,"comment"));
+        this.likeService = new LikeService(new LikeHttpContext("service-likes",9005,"like"));
+        commentService = new CommentService(new CommentHttpContext("service-comment",9003,"comment"));
     }
     @Override
     public ResponseEntity<PostDto> getEntityById(@PathVariable("id") Long id)
     {
         PostDao postDao = postService.findById(id);
         PostDto postDto = postDaoConverter.objectDaoToObject(postDao);
-        postDto.setCommentDtos(commentService.getCommentDtos(postDao.getId()));
+        postDto.setComments(commentService.getCommentDtos(postDao.getId()));
         postDto.setLikes(likeService.getAllLikesByPostId(postDao.getId()));
         return new ResponseEntity(postDto, HttpStatus.OK);
     }
@@ -45,7 +47,8 @@ public class  PostController extends BaseController<PostDao,PostDto> {
         List<PostDao> postDaos = postService.getPostsByUserId(id);
         List<PostDto> postDtos = postDaoConverter.objectDaosToObjects(postDaos);
         for (PostDto postDto: postDtos) {
-            postDto.setCommentDtos(commentService.getCommentDtos(postDto.getId()));
+            postDto.setComments(commentService.getCommentDtos(postDto.getId()));
+            postDto.setLikes(likeService.getAllLikesByPostId(postDto.getId()));
         }
         return new ResponseEntity(postDtos, HttpStatus.OK);
     }

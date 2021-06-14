@@ -12,6 +12,16 @@ public class ImageMongoDao implements ImageDao {
     private String name;
     private ContentType contentType;
 
+    public ImageMongoDao() {
+    }
+
+    public ImageMongoDao(String id, Long userId, String name, ContentType contentType) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+        this.contentType = contentType;
+    }
+
     public String getId() {
         return id;
     }

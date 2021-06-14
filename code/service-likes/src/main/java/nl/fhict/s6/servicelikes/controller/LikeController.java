@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/like")
 public class LikeController {
@@ -21,10 +23,10 @@ public class LikeController {
     }
 
     @GetMapping(value = "/post/{postId}")
-    public ResponseEntity<LikeDto> getLikesByPostId(@PathVariable("postId") Long postId)
+    public ResponseEntity<List<LikeDto>> getLikesByPostId(@PathVariable("postId") Long postId)
     {
-        LikeDao likeDao = likeService.getLikesByPostId(postId);
-        return new ResponseEntity<>(likeDaoConverter.objectDaoToObject(likeDao), HttpStatus.OK);
+        List<LikeDao> likeDao = likeService.getLikesByPostId(postId);
+        return new ResponseEntity<>(likeDaoConverter.objectDaosToObjects(likeDao), HttpStatus.OK);
     }
     @PostMapping("")
     public ResponseEntity saveLike(LikeDto likeDto)

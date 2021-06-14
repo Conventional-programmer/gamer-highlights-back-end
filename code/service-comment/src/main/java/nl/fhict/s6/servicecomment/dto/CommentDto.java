@@ -2,8 +2,8 @@ package nl.fhict.s6.servicecomment.dto;
 
 public class CommentDto {
     private Long id;
-    private UserDto userDto;
-    private String comment;
+    private UserDto user;
+    private String message;
 
     public CommentDto() {
     }
@@ -16,19 +16,19 @@ public class CommentDto {
         this.id = id;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
-    public String getComment() {
-        return comment;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

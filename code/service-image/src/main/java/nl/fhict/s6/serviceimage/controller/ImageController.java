@@ -57,7 +57,7 @@ public class ImageController {
         {
             BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
             ImageDao imageDao = imageConverter.convertDtoToImageDao(imageDto,getSimpleName(file.getOriginalFilename()),1L);
-            ImageDao saved  = imageService.save(imageDao);
+            imageService.save(imageDao);
             String destinationUrl = String.format("src/main/resources/static/%s/%s",imageDto.getImageType().name().toLowerCase(),file.getOriginalFilename());
             File destination = new File(destinationUrl);
             ImageIO.write(src, "jpg", destination);

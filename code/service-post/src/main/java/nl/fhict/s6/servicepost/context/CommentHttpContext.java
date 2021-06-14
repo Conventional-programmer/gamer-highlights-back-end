@@ -2,10 +2,10 @@ package nl.fhict.s6.servicepost.context;
 
 import nl.fhict.s6.servicepost.dto.CommentDto;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-
 
 public class CommentHttpContext extends BaseHttpContext<CommentDto,Long> {
 

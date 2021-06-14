@@ -14,6 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,22 +33,23 @@ public class LikeServiceTest {
         LikeDao likeDao = new LikeDao();
         likeDao.setPostId(1L);
         likeDao.setUserDao(new UserDaoGeneration().generateUserDaos().get(0));
-        Optional<LikeDao> optional = Optional.of(likeDao);
-        Mockito.when(likeRepository.findById(1L)).thenReturn(optional);
+        List<LikeDao> likeDaos = new ArrayList<>();
+        likeDaos.add(likeDao);
+        Mockito.when(likeRepository.getAllByPostId(1L)).thenReturn(likeDaos);
     }
 
     @Test
     void getLikesByPostId() {
-        LikeDao likes = likeService.getLikesByPostId(1L);
-        assertEquals(1L,likes.getPostId());
+        List<LikeDao> likes = likeService.getLikesByPostId(1L);
+        assertEquals(1L,likes.get(0).getPostId());
     }
 
     @Test
     void getLikeDaoByPostId() {
-        LikeDao likeDao = likeService.getLikeDaoByPostId(1L);
-        assertEquals(1L,likeDao.getPostId());
-        assertEquals(1L,likeDao.getUserDao().getId());
-        assertEquals("bert",likeDao.getUserDao().getUsername());
+        List<LikeDao> likeDao = likeService.getLikesByPostId(1L);
+        assertEquals(1L,likeDao.get(0).getPostId());
+        assertEquals(1L,likeDao.get(0).getUserDao().getId());
+        assertEquals("bert",likeDao.get(0).getUserDao().getUsername());
     }
 
     @Test

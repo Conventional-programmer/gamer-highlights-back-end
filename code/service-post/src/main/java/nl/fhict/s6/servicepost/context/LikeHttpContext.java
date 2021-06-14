@@ -1,12 +1,10 @@
 package nl.fhict.s6.servicepost.context;
 
-import nl.fhict.s6.servicepost.dto.CommentDto;
 import nl.fhict.s6.servicepost.dto.LikeDto;
 import org.springframework.http.HttpMethod;
 
 import java.util.Arrays;
 import java.util.List;
-
 
 public class LikeHttpContext extends BaseHttpContext<LikeDto,Long>{
     public LikeHttpContext(String serverIp, Integer port, String baseUrl) {

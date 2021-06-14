@@ -56,22 +56,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public RemoteAuthorizationHeaderFilter authenticationJwtTokenFilter() {
         return new RemoteAuthorizationHeaderFilter();
     }
-//    @Bean
-//    public CorsFilter corsFilter() {
-//        UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
-//        final CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("http://localhost:8080");
-//        config.addAllowedOrigin("http://192.168.220.24");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("OPTIONS");
-//        config.addAllowedMethod("HEAD");
-//        config.addAllowedMethod("GET");
-//        config.addAllowedMethod("PUT");
-//        config.addAllowedMethod("POST");
-//        config.addAllowedMethod("DELETE");
-//        config.addAllowedMethod("PATCH");
-//        src.registerCorsConfiguration("/**", config);
-//        return new CorsFilter(src);
-//    }
 }

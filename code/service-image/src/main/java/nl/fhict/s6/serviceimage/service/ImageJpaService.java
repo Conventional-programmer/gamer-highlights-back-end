@@ -16,10 +16,6 @@ public class ImageJpaService extends CrudService<ImageJpaDao> implements ImageSe
         super(imageRepository);
         this.imageRepository = imageRepository;
     }
-    public ImageJpaDao getImageDaoByContentTypeAndName(ContentType contentType, String name)
-    {
-        return  imageRepository.findByContentTypeAndName(contentType,name);
-    }
 
     @Override
     public ImageJpaDao findByContentTypeAndName(ContentType contentType, String name) {

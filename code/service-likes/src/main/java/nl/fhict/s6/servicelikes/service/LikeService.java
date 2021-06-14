@@ -1,11 +1,10 @@
 package nl.fhict.s6.servicelikes.service;
 
-import nl.fhict.s6.libraryrest.service.CrudService;
 import nl.fhict.s6.servicelikes.datamodels.LikeDao;
 import nl.fhict.s6.servicelikes.repository.LikeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class LikeService {
@@ -14,23 +13,9 @@ public class LikeService {
     public LikeService(LikeRepository likeRepository) {
         this.likeRepository = likeRepository;
     }
-    public LikeDao getLikesByPostId(Long postId)
+    public List<LikeDao> getLikesByPostId(Long postId)
     {
-        Optional<LikeDao> likeDao = likeRepository.findById(postId);
-        if(likeDao.isPresent())
-        {
-            return likeDao.get();
-        }
-        return null;
-    }
-    public LikeDao getLikeDaoByPostId(Long postId)
-    {
-        Optional<LikeDao> likeDao = likeRepository.findById(postId);
-        if(likeDao.isPresent())
-        {
-            return likeDao.get();
-        }
-        return null;
+        return likeRepository.getAllByPostId(postId);
     }
     public void update(LikeDao likeDao)
     {

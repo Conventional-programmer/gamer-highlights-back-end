@@ -15,22 +15,15 @@ public class PostDao extends EntityDao {
     private String imageUrl;
     @Column(name = "description")
     private String description;
-    @ElementCollection
-    @Column(name = "likes")
-    private List<Long> likes;
-    @ElementCollection
-    @Column(name = "comment")
-    private List<Long> commentIds;
 
     public PostDao() {
     }
 
-    public PostDao(Long id, Long userId, String imageUrl, String description, List<Long> likes) {
+    public PostDao(Long id, Long userId, String imageUrl, String description) {
         super(id);
         this.userId = userId;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.likes = likes;
     }
 
     public String getImageUrl() {
@@ -49,11 +42,4 @@ public class PostDao extends EntityDao {
         this.description = description;
     }
 
-    public List<Long> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(List<Long> likes) {
-        this.likes = likes;
-    }
 }

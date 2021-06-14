@@ -2,6 +2,7 @@ package nl.fhict.s6.servicepost.service;
 
 import nl.fhict.s6.servicepost.context.LikeHttpContext;
 import nl.fhict.s6.servicepost.dto.LikeDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,7 +54,9 @@ public class LikeControllerTest {
         LikeDao likeDao = new LikeDao();
         likeDao.setPostId(1L);
         likeDao.setUserDao(users.get(0));
-        when(likeService.getLikesByPostId(1L)).thenReturn(likeDao);
+        List<LikeDao> likeDaos = new ArrayList<>();
+        likeDaos.add(likeDao);
+        when(likeService.getLikesByPostId(1L)).thenReturn(likeDaos);
         MvcResult mvcResult = this.mockMvc.perform(get("/like/post/1")).andReturn();
         assertTrue(mvcResult.getResponse().getStatus()>=200&&mvcResult.getResponse().getStatus()<=300);
         assertEquals(likeDao.getPostId(),1L);

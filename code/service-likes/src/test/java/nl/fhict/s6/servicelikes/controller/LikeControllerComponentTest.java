@@ -25,10 +25,9 @@ public class LikeControllerComponentTest {
     @Test
     public void checkIfLikesAreReturned() throws Exception {
         String url = String.format("http://localhost:%d/like/post/%d",port,1L);
-        Integer likes = 1533;
-        ResponseEntity<LikeDto> likeResponse = this.restTemplate.exchange(url, HttpMethod.GET,null, LikeDto.class);
+        ResponseEntity<LikeDto[]> likeResponse = this.restTemplate.exchange(url, HttpMethod.GET,null, LikeDto[].class);
         assertTrue(likeResponse.getStatusCodeValue()>=200 && likeResponse.getStatusCodeValue() <=300);
-        assertThat(likeResponse.getBody().getPostId()).isEqualTo(1L);
-        assertThat(likeResponse.getBody().getUserDto().getUsername()).isEqualTo("bert");
+        assertThat(likeResponse.getBody()[0].getPostId()).isEqualTo(1L);
+        assertThat(likeResponse.getBody()[0].getUserDto().getUsername()).isEqualTo("bert");
     }
 }

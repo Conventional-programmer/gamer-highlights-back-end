@@ -341,4 +341,47 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-mysql
+  labels:
+    run: user-mysql
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
+  selector:
+    run: user-mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  user-mysql
+spec:
+  selector:
+    matchLabels:
+      run:  user-mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run:  user-mysql
+    spec:
+      containers:
+      - name:  user-mysql
+        resources:
+              limits:
+                memory: "1024Mi"
+                cpu: "1500m"
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
         

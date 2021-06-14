@@ -3,7 +3,7 @@ package nl.fhict.s6.servicepost.dto;
 public class LikeDto {
     private Long id;
     private Long postId;
-    private Integer likes;
+    private UserDto userDto;
 
     public LikeDto() {
     }
@@ -24,11 +24,11 @@ public class LikeDto {
         this.postId = postId;
     }
 
-    public Integer getLikes() {
-        return likes;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public void setLikes(Integer likes) {
-        this.likes = likes;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 }

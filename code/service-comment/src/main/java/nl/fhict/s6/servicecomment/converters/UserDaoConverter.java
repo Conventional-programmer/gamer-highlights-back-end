@@ -3,7 +3,9 @@ package nl.fhict.s6.servicecomment.converters;
 import nl.fhict.s6.libraryrest.converters.BaseDaoConverter;
 import nl.fhict.s6.servicecomment.datamodels.UserDao;
 import nl.fhict.s6.servicecomment.dto.UserDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserDaoConverter extends BaseDaoConverter<UserDao, UserDto> {
     @Override
     public UserDao objectToObjectDao(UserDto userDto) {
@@ -15,6 +17,9 @@ public class UserDaoConverter extends BaseDaoConverter<UserDao, UserDto> {
 
     @Override
     public UserDto objectDaoToObject(UserDao userDao) {
-        return null;
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userDao.getId());
+        userDto.setUsername(userDao.getUsername());
+        return userDto;
     }
 }
