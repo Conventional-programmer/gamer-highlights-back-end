@@ -45,38 +45,78 @@ spec:
           name: mq1
         - containerPort: 15672
           name: mq2
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: authentication
+  name: gateway
   labels:
-    run: authentication
+    run: gateway
 spec:
-  type: NodePort
   ports:
-  - port: 9000
+  - port: 80
+    targetPort: 80
     protocol: TCP
   selector:
-    run: authentication-service
+    run: gateway-service
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authentication-service
+  name: gateway-service
 spec:
   selector:
     matchLabels:
-      run: authentication-service
+      run: gateway-service
   replicas: 2
   template:
     metadata:
       labels:
-        run: authentication-service
+        run: gateway-service
     spec:
       containers:
-      - name: authentication-service
+      - name: gateway-service
+        resources:
+              requests:
+                memory: "256Mi"
+                cpu: "125m"
+              limits:
+                memory: "1024Mi"
+                cpu: "250m"
+        image: caskamp/gateway-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-authentication
+  labels:
+    run: service-authentication
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+  selector:
+    run: authentication
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication
+spec:
+  selector:
+    matchLabels:
+      run: authentication
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: authentication
+    spec:
+      containers:
+      - name: authentication-deployement
         image: caskamp/authentication-service
         imagePullPolicy: Always
         resources:
@@ -92,33 +132,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user
+  name: service-user
   labels:
-    run: user
+    run: service-user
 spec:
-  type: NodePort
   ports:
   - port: 9001
     protocol: TCP
   selector:
-    run: user-service
+    run: user
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service
+  name: user
 spec:
   selector:
     matchLabels:
-      run: user-service
+      run: user
   replicas: 2
   template:
     metadata:
       labels:
-        run: user-service
+        run: user
     spec:
       containers:
-      - name: user-service
+      - name: user
         resources:
             requests:
               memory: "512Mi"
@@ -134,33 +173,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: post
+  name: service-post
   labels:
-    run: post
+    run: service-post
 spec:
-  type: NodePort
   ports:
-  - port: 9001
+  - port: 9002
     protocol: TCP
   selector:
-    run: post-service
+    run: post
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-service
+  name: post
 spec:
   selector:
     matchLabels:
-      run: post-service
+      run: post
   replicas: 2
   template:
     metadata:
       labels:
-        run: post-service
+        run: post
     spec:
       containers:
-      - name: post-service
+      - name: post
         resources:
             requests:
               memory: "128Mi"
@@ -176,33 +214,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: comment
+  name: service-comment
   labels:
-    run: comment
+    run: service-comment
 spec:
-  type: NodePort
   ports:
   - port: 9003
     protocol: TCP
   selector:
-    run: comment-service
+    run: comment
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: comment-service
+  name: comment
 spec:
   selector:
     matchLabels:
-      run: comment-service
+      run: comment
   replicas: 2
   template:
     metadata:
       labels:
-        run: comment-service
+        run: comment
     spec:
       containers:
-      - name: comment-service
+      - name: comment
         resources:
             requests:
               memory: "256Mi"
@@ -218,33 +255,33 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: image
+  name: service-image
   labels:
-    run: image
+    run: service-image
 spec:
-  type: NodePort
   ports:
   - port: 9004
+    targetPort: 80
     protocol: TCP
   selector:
-    run: image-service
+    run: image
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: image-service
+  name: image
 spec:
   selector:
     matchLabels:
-      run: image-service
+      run: image
   replicas: 2
   template:
     metadata:
       labels:
-        run: image-service
+        run: image
     spec:
       containers:
-      - name: image-service
+      - name: image
         resources:
               requests:
                 memory: "128Mi"
@@ -260,33 +297,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: likes
+  name: service-likes
   labels:
-    run: likes
+    run: service-likes
 spec:
-  type: NodePort
   ports:
   - port: 9005
     protocol: TCP
   selector:
-    run: likes-service
+    run: likes
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: likes-service
+  name: likes
 spec:
   selector:
     matchLabels:
-      run: likes-service
+      run: likes
   replicas: 2
   template:
     metadata:
       labels:
-        run: likes-service
+        run: likes
     spec:
       containers:
-      - name: likes-service
+      - name: likes
         resources:
               requests:
                 memory: "128Mi"
@@ -306,10 +342,10 @@ metadata:
   labels:
     run: vue
 spec:
-  type: LoadBalancer
   ports:
-  - port: 80
+  - port: 8080
     targetPort: 80
+    name: http
     protocol: TCP
   selector:
     run: vue-service
@@ -341,47 +377,47 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: user-mysql
-  labels:
-    run: user-mysql
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 3306
-    targetPort: 3306
-    protocol: TCP
-  selector:
-    run: user-mysql
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name:  user-mysql
-spec:
-  selector:
-    matchLabels:
-      run:  user-mysql
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        run:  user-mysql
-    spec:
-      containers:
-      - name:  user-mysql
-        resources:
-              limits:
-                memory: "1024Mi"
-                cpu: "1500m"
-        env:
-          # Use secret in real usage
-        - name: MYSQL_ROOT_PASSWORD
-          value: password
-        image: mysql:5.7
-        ports:
-        - containerPort: 3306
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: user-mysql
+#   labels:
+#     run: user-mysql
+# spec:
+#   type: LoadBalancer
+#   ports:
+#   - port: 3306
+#     targetPort: 3306
+#     protocol: TCP
+#   selector:
+#     run: user-mysql
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name:  user-mysql
+# spec:
+#   selector:
+#     matchLabels:
+#       run:  user-mysql
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         run:  user-mysql
+#     spec:
+#       containers:
+#       - name:  user-mysql
+#         resources:
+#               limits:
+#                 memory: "1024Mi"
+#                 cpu: "1500m"
+#         env:
+#           # Use secret in real usage
+#         - name: MYSQL_ROOT_PASSWORD
+#           value: password
+#         image: mysql:5.7
+#         ports:
+#         - containerPort: 3306
         
