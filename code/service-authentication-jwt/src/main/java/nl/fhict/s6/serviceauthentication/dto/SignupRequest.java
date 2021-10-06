@@ -21,13 +21,12 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
-    private String firstName;
-
-    private String lastName;
 
     private String description;
 
     private String pictureUrl;
+
+    private String token;
 
     public String getDescription() {
         return description;
@@ -43,22 +42,6 @@ public class SignupRequest {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -91,5 +74,13 @@ public class SignupRequest {
 
     public void setRole(Set<String> role) {
         this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

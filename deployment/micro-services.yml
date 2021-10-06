@@ -231,8 +231,13 @@ metadata:
 spec:
   selector:
     matchLabels:
+<<<<<<< HEAD
+      run: comment-service
+  replicas: 1
+=======
       run: comment
   replicas: 2
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
   template:
     metadata:
       labels:
@@ -272,8 +277,13 @@ metadata:
 spec:
   selector:
     matchLabels:
+<<<<<<< HEAD
+      run: image-service
+  replicas: 1
+=======
       run: image
   replicas: 2
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
   template:
     metadata:
       labels:
@@ -313,8 +323,13 @@ metadata:
 spec:
   selector:
     matchLabels:
+<<<<<<< HEAD
+      run: likes-service
+  replicas: 1 
+=======
       run: likes
   replicas: 2
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
   template:
     metadata:
       labels:
@@ -333,6 +348,8 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 9005
+<<<<<<< HEAD
+=======
 ---
 apiVersion: v1
 kind: Service
@@ -377,10 +394,24 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
 # ---
 # apiVersion: v1
 # kind: Service
 # metadata:
+<<<<<<< HEAD
+#   name: vue
+#   labels:
+#     run: vue
+# spec:
+#   type: LoadBalancer
+#   ports:
+#   - port: 80 
+#     targetPort: 80 
+#     protocol: TCP
+#   selector:
+#     run: vue-service
+=======
 #   name: user-mysql
 #   labels:
 #     run: user-mysql
@@ -392,10 +423,36 @@ spec:
 #     protocol: TCP
 #   selector:
 #     run: user-mysql
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
 # ---
 # apiVersion: apps/v1
 # kind: Deployment
 # metadata:
+<<<<<<< HEAD
+#   name: vue-service
+# spec:
+#   selector:
+#     matchLabels:
+#       run: vue-service
+#   replicas: 2
+#   template:
+#     metadata:
+#       labels:
+#         run: vue-service
+#     spec:
+#       containers:
+#       - name: vue-service
+#         resources:
+#               requests:
+#                 memory: "256Mi"
+#                 cpu: "125m"
+#               limits:
+#                 memory: "512Mi"
+#                 cpu: "250m"
+#         image: caskamp/game-highlights-vue
+#         ports:
+#         - containerPort: 80
+=======
 #   name:  user-mysql
 # spec:
 #   selector:
@@ -421,3 +478,4 @@ spec:
 #         ports:
 #         - containerPort: 3306
         
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
