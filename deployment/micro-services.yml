@@ -53,11 +53,10 @@ metadata:
   labels:
     run: gateway
 spec:
-  type: LoadBalancer
   ports:
-    - port: 80
-      targetPort: 80 
-      protocol: TCP
+  - port: 80
+    targetPort: 80
+    protocol: TCP
   selector:
     run: gateway-service
 ---
@@ -69,56 +68,55 @@ spec:
   selector:
     matchLabels:
       run: gateway-service
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
         run: gateway-service
     spec:
       containers:
-        - name: gateway-service
-          image: caskamp/gateway-service
-          imagePullPolicy: Always
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "125m"
-            limits:
-              memory: "1028Mi"
-              cpu: "250m"
-          ports:
-            - containerPort: 80
+      - name: gateway-service
+        resources:
+              requests:
+                memory: "256Mi"
+                cpu: "125m"
+              limits:
+                memory: "1024Mi"
+                cpu: "250m"
+        image: caskamp/gateway-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: authentication
+  name: service-authentication
   labels:
-    run: authentication
+    run: service-authentication
 spec:
-  type: NodePort
   ports:
   - port: 9000
     protocol: TCP
   selector:
-    run: authentication-service
+    run: authentication
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authentication-service
+  name: authentication
 spec:
   selector:
     matchLabels:
-      run: authentication-service
+      run: authentication
   replicas: 2
   template:
     metadata:
       labels:
-        run: authentication-service
+        run: authentication
     spec:
       containers:
-      - name: authentication-service
+      - name: authentication-deployement
         image: caskamp/authentication-service
         imagePullPolicy: Always
         resources:
@@ -134,33 +132,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user
+  name: service-user
   labels:
-    run: user
+    run: service-user
 spec:
-  type: NodePort
   ports:
   - port: 9001
     protocol: TCP
   selector:
-    run: user-service
+    run: user
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service
+  name: user
 spec:
   selector:
     matchLabels:
-      run: user-service
+      run: user
   replicas: 2
   template:
     metadata:
       labels:
-        run: user-service
+        run: user
     spec:
       containers:
-      - name: user-service
+      - name: user
         resources:
             requests:
               memory: "512Mi"
@@ -176,33 +173,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: post
+  name: service-post
   labels:
-    run: post
+    run: service-post
 spec:
-  type: NodePort
   ports:
-  - port: 9001
+  - port: 9002
     protocol: TCP
   selector:
-    run: post-service
+    run: post
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-service
+  name: post
 spec:
   selector:
     matchLabels:
-      run: post-service
+      run: post
   replicas: 2
   template:
     metadata:
       labels:
-        run: post-service
+        run: post
     spec:
       containers:
-      - name: post-service
+      - name: post
         resources:
             requests:
               memory: "128Mi"
@@ -218,33 +214,37 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: comment
+  name: service-comment
   labels:
-    run: comment
+    run: service-comment
 spec:
-  type: NodePort
   ports:
   - port: 9003
     protocol: TCP
   selector:
-    run: comment-service
+    run: comment
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: comment-service
+  name: comment
 spec:
   selector:
     matchLabels:
+<<<<<<< HEAD
       run: comment-service
   replicas: 1
+=======
+      run: comment
+  replicas: 2
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
   template:
     metadata:
       labels:
-        run: comment-service
+        run: comment
     spec:
       containers:
-      - name: comment-service
+      - name: comment
         resources:
             requests:
               memory: "256Mi"
@@ -260,33 +260,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: image
+  name: service-image
   labels:
-    run: image
+    run: service-image
 spec:
-  type: NodePort
   ports:
   - port: 9004
+    targetPort: 80
     protocol: TCP
   selector:
-    run: image-service
+    run: image
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: image-service
+  name: image
 spec:
   selector:
     matchLabels:
+<<<<<<< HEAD
       run: image-service
   replicas: 1
+=======
+      run: image
+  replicas: 2
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
   template:
     metadata:
       labels:
-        run: image-service
+        run: image
     spec:
       containers:
-      - name: image-service
+      - name: image
         resources:
               requests:
                 memory: "128Mi"
@@ -302,33 +307,37 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: likes
+  name: service-likes
   labels:
-    run: likes
+    run: service-likes
 spec:
-  type: NodePort
   ports:
   - port: 9005
     protocol: TCP
   selector:
-    run: likes-service
+    run: likes
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: likes-service
+  name: likes
 spec:
   selector:
     matchLabels:
+<<<<<<< HEAD
       run: likes-service
   replicas: 1 
+=======
+      run: likes
+  replicas: 2
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
   template:
     metadata:
       labels:
-        run: likes-service
+        run: likes
     spec:
       containers:
-      - name: likes-service
+      - name: likes
         resources:
               requests:
                 memory: "128Mi"
@@ -340,10 +349,57 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 9005
+<<<<<<< HEAD
+=======
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue
+  labels:
+    run: vue
+spec:
+  ports:
+  - port: 8080
+    targetPort: 80
+    name: http
+    protocol: TCP
+  selector:
+    run: vue-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-service
+spec:
+  selector:
+    matchLabels:
+      run: vue-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: vue-service
+    spec:
+      containers:
+      - name: vue-service
+        resources:
+              requests:
+                memory: "256Mi"
+                cpu: "125m"
+              limits:
+                memory: "1024Mi"
+                cpu: "250m"
+        image: caskamp/game-highlights-vue
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
 # ---
 # apiVersion: v1
 # kind: Service
 # metadata:
+<<<<<<< HEAD
 #   name: vue
 #   labels:
 #     run: vue
@@ -355,10 +411,24 @@ spec:
 #     protocol: TCP
 #   selector:
 #     run: vue-service
+=======
+#   name: user-mysql
+#   labels:
+#     run: user-mysql
+# spec:
+#   type: LoadBalancer
+#   ports:
+#   - port: 3306
+#     targetPort: 3306
+#     protocol: TCP
+#   selector:
+#     run: user-mysql
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
 # ---
 # apiVersion: apps/v1
 # kind: Deployment
 # metadata:
+<<<<<<< HEAD
 #   name: vue-service
 # spec:
 #   selector:
@@ -382,3 +452,30 @@ spec:
 #         image: caskamp/game-highlights-vue
 #         ports:
 #         - containerPort: 80
+=======
+#   name:  user-mysql
+# spec:
+#   selector:
+#     matchLabels:
+#       run:  user-mysql
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         run:  user-mysql
+#     spec:
+#       containers:
+#       - name:  user-mysql
+#         resources:
+#               limits:
+#                 memory: "1024Mi"
+#                 cpu: "1500m"
+#         env:
+#           # Use secret in real usage
+#         - name: MYSQL_ROOT_PASSWORD
+#           value: password
+#         image: mysql:5.7
+#         ports:
+#         - containerPort: 3306
+        
+>>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
