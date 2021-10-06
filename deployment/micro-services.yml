@@ -45,7 +45,49 @@ spec:
           name: mq1
         - containerPort: 15672
           name: mq2
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  labels:
+    run: gateway
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80 
+      protocol: TCP
+  selector:
+    run: gateway-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service
+spec:
+  selector:
+    matchLabels:
+      run: gateway-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: gateway-service
+    spec:
+      containers:
+        - name: gateway-service
+          image: caskamp/gateway-service
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "125m"
+            limits:
+              memory: "1028Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -195,7 +237,7 @@ spec:
   selector:
     matchLabels:
       run: comment-service
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -237,7 +279,7 @@ spec:
   selector:
     matchLabels:
       run: image-service
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -279,7 +321,7 @@ spec:
   selector:
     matchLabels:
       run: likes-service
-  replicas: 2
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -298,90 +340,45 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 9005
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: vue
-  labels:
-    run: vue
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 80
-    protocol: TCP
-  selector:
-    run: vue-service
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: vue-service
-spec:
-  selector:
-    matchLabels:
-      run: vue-service
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        run: vue-service
-    spec:
-      containers:
-      - name: vue-service
-        resources:
-              requests:
-                memory: "256Mi"
-                cpu: "125m"
-              limits:
-                memory: "1024Mi"
-                cpu: "250m"
-        image: caskamp/game-highlights-vue
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: user-mysql
-  labels:
-    run: user-mysql
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 3306
-    targetPort: 3306
-    protocol: TCP
-  selector:
-    run: user-mysql
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name:  user-mysql
-spec:
-  selector:
-    matchLabels:
-      run:  user-mysql
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        run:  user-mysql
-    spec:
-      containers:
-      - name:  user-mysql
-        resources:
-              limits:
-                memory: "1024Mi"
-                cpu: "1500m"
-        env:
-          # Use secret in real usage
-        - name: MYSQL_ROOT_PASSWORD
-          value: password
-        image: mysql:5.7
-        ports:
-        - containerPort: 3306
-        
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: vue
+#   labels:
+#     run: vue
+# spec:
+#   type: LoadBalancer
+#   ports:
+#   - port: 80 
+#     targetPort: 80 
+#     protocol: TCP
+#   selector:
+#     run: vue-service
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: vue-service
+# spec:
+#   selector:
+#     matchLabels:
+#       run: vue-service
+#   replicas: 2
+#   template:
+#     metadata:
+#       labels:
+#         run: vue-service
+#     spec:
+#       containers:
+#       - name: vue-service
+#         resources:
+#               requests:
+#                 memory: "256Mi"
+#                 cpu: "125m"
+#               limits:
+#                 memory: "512Mi"
+#                 cpu: "250m"
+#         image: caskamp/game-highlights-vue
+#         ports:
+#         - containerPort: 80

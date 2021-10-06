@@ -8,6 +8,7 @@ import nl.fhict.s6.serviceauthentication.dto.SignupRequest;
 import nl.fhict.s6.serviceauthentication.event.UserCreatedEvent;
 import nl.fhict.s6.serviceauthentication.security.jwt.JwtUtils;
 import nl.fhict.s6.serviceauthentication.security.services.UserDetailsImpl;
+import nl.fhict.s6.serviceauthentication.service.RecaptchaService;
 import nl.fhict.s6.serviceauthentication.service.RoleService;
 import nl.fhict.s6.serviceauthentication.service.UserService;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -43,6 +45,7 @@ public class AuthenticationController {
     private String exchange;
     @Value("${gamehighlights.rabbitmq.routingkey}")
     private String routingkey;
+    private RecaptchaService recaptchaService = new RecaptchaService(new RestTemplate());
     public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService, PasswordEncoder encoder, JwtUtils jwtUtils,AmqpTemplate rabbitTemplate) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
@@ -74,6 +77,7 @@ public class AuthenticationController {
     @RequestMapping("/register")
     public ResponseEntity register(@Valid @RequestBody SignupRequest signUpRequest)
     {
+        recaptchaService.validateRecaptchaClientToken(signUpRequest.getToken());
         if (userService.checkUserExistByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
