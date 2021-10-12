@@ -1,6 +1,7 @@
 package nl.fhict.s6.serviceauthentication.security.jwt;
 
 import io.jsonwebtoken.*;
+import io.micrometer.core.instrument.util.StringUtils;
 import nl.fhict.s6.serviceauthentication.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class JwtUtils {
@@ -19,10 +24,15 @@ public class JwtUtils {
 
     @Value("${game-highlights.app.jwtExpirationMs}")
     private int jwtExpirationMs;
+    private int refreshExpirationDateInMs;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtTokenByAuthentication(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        return generateJwtTokenByUserDetails(userPrincipal);
+    }
+    public String generateJwtTokenByUserDetails(UserDetailsImpl userPrincipal)
+    {
         return Jwts.builder()
                 .setId(userPrincipal.getId().toString())
                 .setSubject(userPrincipal.getUsername())
@@ -53,5 +63,10 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    @Value("${game-highlights.app.refreshExpirationDateInMs")
+    public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
+        this.refreshExpirationDateInMs = refreshExpirationDateInMs;
     }
 }

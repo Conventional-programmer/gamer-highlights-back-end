@@ -25,7 +25,7 @@ services:
       prom/prometheus
     hostname: prometheus
     volumes: 
-      - C:\Users\casva\OneDrive\Documenten\programming\java\gamerHiglights\deployment/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports: 
       - "9090:9090"
   grafana:
