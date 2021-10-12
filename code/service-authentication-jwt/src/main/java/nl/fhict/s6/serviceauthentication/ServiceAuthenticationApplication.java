@@ -1,7 +1,10 @@
 package nl.fhict.s6.serviceauthentication;
 
+import nl.fhict.s6.serviceauthentication.config.generation.RoleDaoGeneration;
 import nl.fhict.s6.serviceauthentication.config.generation.UserDaoGeneration;
+import nl.fhict.s6.serviceauthentication.datamodels.RoleDao;
 import nl.fhict.s6.serviceauthentication.datamodels.UserDao;
+import nl.fhict.s6.serviceauthentication.repository.RoleRepository;
 import nl.fhict.s6.serviceauthentication.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,12 +30,14 @@ public class ServiceAuthenticationApplication {
 
 	@Bean
 	@Profile("dev")
-	public CommandLineRunner demo(UserRepository userRepository)
+	public CommandLineRunner demo(UserRepository userRepository, RoleRepository roleRepository)
 	{
 		if (Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
 			return args -> {
 				List<UserDao> userDaos = new UserDaoGeneration().generateUserDaos();
 				userRepository.saveAll(userDaos);
+				List<RoleDao> roleDaos = new RoleDaoGeneration().generateRoles();
+				roleRepository.saveAll(roleDaos);
 			};
 		}
 		else {

@@ -22,6 +22,7 @@ public class RoleDao {
         this.type =  roleType;
     }
 
+
     public RoleDao(RoleType type) {
         this.type = type;
     }

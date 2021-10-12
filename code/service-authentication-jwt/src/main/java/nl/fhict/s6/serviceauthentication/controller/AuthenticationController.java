@@ -1,5 +1,8 @@
 package nl.fhict.s6.serviceauthentication.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.fhict.s6.serviceauthentication.basemessaging.EncapsulatingMessageGenerator;
 import nl.fhict.s6.serviceauthentication.datamodels.*;
 import nl.fhict.s6.serviceauthentication.dto.JwtResponse;
 import nl.fhict.s6.serviceauthentication.dto.LoginRequest;
@@ -8,18 +11,19 @@ import nl.fhict.s6.serviceauthentication.dto.SignupRequest;
 import nl.fhict.s6.serviceauthentication.event.UserCreatedEvent;
 import nl.fhict.s6.serviceauthentication.security.jwt.JwtUtils;
 import nl.fhict.s6.serviceauthentication.security.services.UserDetailsImpl;
-import nl.fhict.s6.serviceauthentication.service.RecaptchaService;
+import nl.fhict.s6.serviceauthentication.recaptcha.RecaptchaService;
 import nl.fhict.s6.serviceauthentication.service.RoleService;
 import nl.fhict.s6.serviceauthentication.service.UserService;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +49,8 @@ public class AuthenticationController {
     private String exchange;
     @Value("${gamehighlights.rabbitmq.routingkey}")
     private String routingkey;
-    private RecaptchaService recaptchaService = new RecaptchaService(new RestTemplate());
+    @Autowired
+    private RecaptchaService recaptchaService;
     public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService, PasswordEncoder encoder, JwtUtils jwtUtils,AmqpTemplate rabbitTemplate) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
@@ -75,9 +80,14 @@ public class AuthenticationController {
                 roles));
     }
     @RequestMapping("/register")
-    public ResponseEntity register(@Valid @RequestBody SignupRequest signUpRequest)
-    {
-        recaptchaService.validateRecaptchaClientToken(signUpRequest.getToken());
+    public ResponseEntity register(@Valid @RequestBody SignupRequest signUpRequest) throws JsonProcessingException {
+        boolean humanUser = recaptchaService.validateRecaptchaClientToken(signUpRequest.getToken());
+        if(!humanUser)
+        {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Not a valid user token"));
+        }
         if (userService.checkUserExistByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -98,15 +108,15 @@ public class AuthenticationController {
         Set<String> strRoles = signUpRequest.getRole();
         userDao.setRoles(stringRolesToRoles(strRoles));
         UserDao saved = userService.save(userDao);
-        rabbitTemplate.convertAndSend(exchange,routingkey,new UserCreatedEvent(saved.getId(),saved.getUsername()));
+        rabbitTemplate.convertAndSend(exchange,routingkey,new EncapsulatingMessageGenerator().generateMessageString(new UserCreatedEvent(saved.getId(),saved.getUsername())));
+        System.out.println("user registerd");
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
     //later verbeteren
     private Set<RoleDao> stringRolesToRoles(Set<String> stringRoles)
     {
         Set<RoleDao> roles = new HashSet<>();
-
-        if (stringRoles == null) {
+        if (stringRoles == null || stringRoles.size() < 1) {
             RoleDao userRole = roleService.findByType(RoleType.USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
