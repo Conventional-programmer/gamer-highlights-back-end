@@ -34,6 +34,8 @@ spring:
           uri: http://service-image:9004/image
           predicates:
             - Path=/image/**
+          filters:
+            - AuthorizationParameterFilter
         - id: likes
           uri: http://service-likes:9005/like
           predicates:

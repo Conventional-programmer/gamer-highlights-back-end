@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 public class RefreshTokenService {
-    @Value("${bezkoder.app.jwtRefreshExpirationMs}")
+    @Value("${game-highlights.app.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
 
     @Autowired

@@ -6,7 +6,14 @@ import nl.fhict.s6.serviceauthentication.datamodels.RefreshTokenDao;
 import nl.fhict.s6.serviceauthentication.datamodels.RoleDao;
 import nl.fhict.s6.serviceauthentication.datamodels.RoleType;
 import nl.fhict.s6.serviceauthentication.datamodels.UserDao;
-import nl.fhict.s6.serviceauthentication.dto.*;
+import nl.fhict.s6.serviceauthentication.dto.request.LoginRequest;
+import nl.fhict.s6.serviceauthentication.dto.request.SignupRequest;
+import nl.fhict.s6.serviceauthentication.dto.request.TokenRefreshRequest;
+import nl.fhict.s6.serviceauthentication.dto.request.VerifyJwtRequest;
+import nl.fhict.s6.serviceauthentication.dto.response.JwtResponse;
+import nl.fhict.s6.serviceauthentication.dto.response.MessageResponse;
+import nl.fhict.s6.serviceauthentication.dto.response.TokenRefreshResponse;
+import nl.fhict.s6.serviceauthentication.dto.response.VerifyTokenResponse;
 import nl.fhict.s6.serviceauthentication.event.UserCreatedEvent;
 import nl.fhict.s6.serviceauthentication.exception.TokenRefreshException;
 import nl.fhict.s6.serviceauthentication.recaptcha.RecaptchaService;
@@ -29,7 +36,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -172,4 +178,22 @@ public class AuthenticationController {
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                         "Refresh token is not in database!"));
     }
+    @PostMapping("/token/verify")
+    public ResponseEntity<VerifyTokenResponse> verifyToken(@RequestBody VerifyJwtRequest request) {
+        String[] tokenSplit = request.getToken().split(" ");
+
+//      Remove token type if present
+        String token = tokenSplit[tokenSplit.length - 1];
+
+        if (jwtUtils.validateJwtToken(token)) {
+            String subject = jwtUtils.extractClaim(token, "sub", String.class);
+            String email = jwtUtils.extractClaim(token, "email", String.class);
+            List<String> authorities = jwtUtils.extractClaim(token, "authorities", List.class);
+
+            return ResponseEntity.ok(new VerifyTokenResponse(subject, email, authorities));
+        } else {
+            return ResponseEntity.ok(new VerifyTokenResponse());
+        }
+    }
+
 }

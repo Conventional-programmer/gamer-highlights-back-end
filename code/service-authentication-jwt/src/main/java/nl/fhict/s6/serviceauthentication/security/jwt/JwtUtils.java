@@ -7,13 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
@@ -24,7 +23,17 @@ public class JwtUtils {
 
     @Value("${game-highlights.app.jwtExpirationMs}")
     private int jwtExpirationMs;
-    private int refreshExpirationDateInMs;
+
+    public <T> T extractClaim(String token, String claim, Class<T> type) {
+        Claims claims = extractAllClaims(token);
+
+        return claims.get(claim, type);
+    }
+
+    private Claims extractAllClaims(String token) throws SignatureException {
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+    }
+
 
     public String generateJwtTokenByAuthentication(Authentication authentication) {
 
@@ -33,13 +42,22 @@ public class JwtUtils {
     }
     public String generateJwtTokenByUserDetails(UserDetailsImpl userPrincipal)
     {
+        Map<String, Object> claims = generateClaims(userPrincipal);
         return Jwts.builder()
                 .setId(userPrincipal.getId().toString())
-                .setSubject(userPrincipal.getUsername())
+                .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setClaims(claims)
                 .compact();
+    }
+    private Map<String, Object> generateClaims(UserDetailsImpl userPrincipal)
+    {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", userPrincipal.getEmail());
+        claims.put("authorities", userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        return claims;
     }
 
     public String getUserNameFromJwtToken(String token) {
@@ -63,10 +81,5 @@ public class JwtUtils {
         }
 
         return false;
-    }
-
-    @Value("${game-highlights.app.refreshExpirationDateInMs")
-    public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
-        this.refreshExpirationDateInMs = refreshExpirationDateInMs;
     }
 }

@@ -9,7 +9,7 @@ public class PostGeneration {
     public List<PostDao> generatePostDaos()
     {
         List<PostDao> postDaos = new ArrayList<>();
-        postDaos.add(new PostDao(1L,1L,"https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg","bert"));
+        postDaos.add(new PostDao(1L,1L,"http://localhost/image/profile/1","bert"));
         return postDaos;
     }
 }

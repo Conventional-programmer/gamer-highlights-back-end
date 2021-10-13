@@ -37,11 +37,13 @@ public class ImageController {
     @GetMapping(
             value = "/{content-type}/{image}"
     )
-    public ResponseEntity<byte[]> getImageWithMediaType(@PathVariable("content-type")ContentType contentType , @PathVariable("image") String imageName) throws IOException {
+    public ResponseEntity<byte[]> getImageWithMediaType(@RequestHeader("user_id") Long userId,@PathVariable("content-type")ContentType contentType , @PathVariable("image") String imageName) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         ImageDao imageDao = imageService.findByContentTypeAndName(contentType, imageName);
-        if(imageDao == null || imageDao.getUserId() != 1)
+        System.out.println(userId);
+        System.out.println(imageDao.getUserId());
+        if(imageDao == null || !imageDao.getUserId().equals(userId))
         {
             return new ResponseEntity(null,headers,HttpStatus.UNAUTHORIZED);
         }

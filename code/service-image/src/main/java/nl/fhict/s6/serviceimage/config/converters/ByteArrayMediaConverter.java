@@ -11,7 +11,7 @@ public class ByteArrayMediaConverter extends ByteArrayHttpMessageConverter {
         this.setSupportedMediaTypes(supportedMediaTypes());
     }
     private List<MediaType> supportedMediaTypes() {
-        List<MediaType> list = new ArrayList<MediaType>();
+        List<MediaType> list = new ArrayList<>();
         list.add(MediaType.IMAGE_JPEG);
         list.add(MediaType.IMAGE_PNG);
         return list;

@@ -1,4 +1,4 @@
-package nl.fhict.s6.gateway;
+package nl.fhict.s6.gateway.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

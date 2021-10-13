@@ -1,4 +1,4 @@
-package nl.fhict.s6.serviceauthentication.dto;
+package nl.fhict.s6.serviceauthentication.dto.response;
 
 public class RefreshTokenResponse {
     private String response;
