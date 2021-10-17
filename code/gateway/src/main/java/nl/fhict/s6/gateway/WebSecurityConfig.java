@@ -15,6 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import org.springframework.security.web.server.savedrequest.NoOpServerRequestCache;
+import org.springframework.web.server.session.WebSessionManager;
+import reactor.core.publisher.Mono;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -51,4 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/*/")//
                 .antMatchers(HttpMethod.OPTIONS, "/**"); // Request type options should be allowed.
     }
+    @Bean
+    public WebSessionManager webSessionManager() {
+        // Emulate SessionCreationPolicy.STATELESS
+        return exchange -> Mono.empty();
+    }
 }
+

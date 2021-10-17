@@ -41,11 +41,13 @@ public class ImageController {
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         ImageDao imageDao = imageService.findByContentTypeAndName(contentType, imageName);
-        System.out.println(userId);
-        System.out.println(imageDao.getUserId());
-        if(imageDao == null || !imageDao.getUserId().equals(userId))
+        if(userId <= 0)
         {
             return new ResponseEntity(null,headers,HttpStatus.UNAUTHORIZED);
+        }
+        if(imageDao == null || !imageDao.getUserId().equals(userId))
+        {
+            return new ResponseEntity(null,headers,HttpStatus.FORBIDDEN);
         }
         String path = String.format("/static/%s/%s.jpg",contentType.name().toLowerCase(),imageName);
         URL imageUrl = getClass().getResource(path);

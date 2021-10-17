@@ -16,6 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -47,6 +48,7 @@ public class RemoteAuthorizationHeaderFilter implements GlobalFilter, Ordered {
         if (authorizationHeader != null && authorizationHeader.length() > 0) {
             VerifyTokenResponse verifyTokenResponse = authorizationService.getVerifyTokenResponseByToken(authorizationHeader);
             if (verifyTokenResponse != null && verifyTokenResponse.isValid()) {
+                System.out.println("Verify token response id: " + verifyTokenResponse.getId());
                 new AuthorizationHelper().setSecurityContextByVerifyTokenResponse(verifyTokenResponse);
             }
         }

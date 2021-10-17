@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.security.auth.Subject;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,7 +27,10 @@ public class JwtUtils {
 
     public <T> T extractClaim(String token, String claim, Class<T> type) {
         Claims claims = extractAllClaims(token);
-
+        for(Map.Entry<String,Object> claimToPrint: claims.entrySet())
+        {
+            System.out.println(claimToPrint.getKey());
+        }
         return claims.get(claim, type);
     }
 
@@ -38,18 +42,21 @@ public class JwtUtils {
     public String generateJwtTokenByAuthentication(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        System.out.println("user princepal 1: " +userPrincipal.getId());
         return generateJwtTokenByUserDetails(userPrincipal);
     }
     public String generateJwtTokenByUserDetails(UserDetailsImpl userPrincipal)
     {
         Map<String, Object> claims = generateClaims(userPrincipal);
+        String subject = Long.toString(userPrincipal.getId());
+        System.out.println("user princepal 2: " + subject);
         return Jwts.builder()
-                .setId(userPrincipal.getId().toString())
-                .setSubject(Long.toString(userPrincipal.getId()))
+                .setHeaderParam("typ", "JWT")
+                .setClaims(claims)
+                .setSubject(subject)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .setClaims(claims)
                 .compact();
     }
     private Map<String, Object> generateClaims(UserDetailsImpl userPrincipal)
@@ -60,7 +67,7 @@ public class JwtUtils {
         return claims;
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getSubjectFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 

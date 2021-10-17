@@ -20,7 +20,7 @@ import java.net.URL;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("prod")
+@ActiveProfiles("dev")
 public class ImageControllerTests {
     @LocalServerPort
     private int port;
@@ -65,12 +65,25 @@ public class ImageControllerTests {
     @Test
     public void getImageWithMediaType() throws IOException {
         String url = baseUrl+ "/%s/%s";
-        url = String.format(url,port, ContentType.PROFILE,"profile");
+        url = String.format(url,port, ContentType.PROFILE.toString().toLowerCase(),"profilepic");
         System.out.println(url);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("userId",String.valueOf(1));
+        httpHeaders.set("user_id",String.valueOf(1));
         HttpEntity httpEntity = new HttpEntity<>(httpHeaders);
         ResponseEntity<byte[]> response = restTemplate.exchange(url,HttpMethod.GET,httpEntity, byte[].class);
+        System.out.println(response.getStatusCode().getReasonPhrase());
         assertTrue(response.getStatusCodeValue()>=200 && response.getStatusCodeValue() <=300);
+    }
+    @Test
+    public void getImageWithMediaTypeNegativeId() throws IOException {
+        String url = baseUrl+ "/%s/%s";
+        url = String.format(url,port, ContentType.PROFILE.toString().toLowerCase(),"profilepic");
+        System.out.println(url);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("user_id",String.valueOf(-1));
+        HttpEntity httpEntity = new HttpEntity<>(httpHeaders);
+        ResponseEntity<byte[]> response = restTemplate.exchange(url,HttpMethod.GET,httpEntity, byte[].class);
+        System.out.println(response.getStatusCode().getReasonPhrase());
+        assertTrue(response.getStatusCodeValue()== 401);
     }
 }

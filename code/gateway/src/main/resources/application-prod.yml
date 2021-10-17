@@ -36,6 +36,7 @@ spring:
             - Path=/image/**
           filters:
             - AuthorizationParameterFilter
+            - RemoveRequestHeader=Cookie
         - id: likes
           uri: http://service-likes:9005/like
           predicates:
