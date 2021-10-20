@@ -10,6 +10,7 @@ public class PostGeneration {
     {
         List<PostDao> postDaos = new ArrayList<>();
         postDaos.add(new PostDao(1L,1L,"http://localhost/image/profile/profilepic","bert"));
+        postDaos.add(new PostDao(2L,2L,"http://localhost/image/profile/profilepic","gert"));
         return postDaos;
     }
 }

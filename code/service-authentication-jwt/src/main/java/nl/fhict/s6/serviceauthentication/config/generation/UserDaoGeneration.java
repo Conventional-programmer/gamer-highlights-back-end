@@ -13,6 +13,7 @@ public class UserDaoGeneration {
     {
         List<UserDao> userDaos = new ArrayList<>();
         userDaos.add(new UserDao(1L,"bert","bert@gmail.com",passwordEncoder.encode("Gert123")));
+        userDaos.add(new UserDao(2L,"gert","gert@gmail.com",passwordEncoder.encode("Bert123")));
         return userDaos;
     }
 }
