@@ -1,3 +1,10 @@
+server:
+  ssl:
+    enabled: true
+    key-alias: gamer-highlights
+    key-store-password: TheHighlight
+    key-store: classpath:keystore/keystore.p12
+    key-store-type: PKCS12
 spring:
   application:
     name: gateway-service

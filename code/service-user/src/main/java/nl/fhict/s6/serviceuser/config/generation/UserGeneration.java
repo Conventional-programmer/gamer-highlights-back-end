@@ -9,7 +9,8 @@ public class UserGeneration {
     public List<UserDao> generateUsers()
     {
         List<UserDao> userDaos = new ArrayList<>();
-        userDaos.add(new UserDao(1L,"Bert@gmail.com"));
+        userDaos.add(new UserDao(1L,"bert@gmail.com"));
+        userDaos.add(new UserDao(2L,"gert@gmail.com"));
         return userDaos;
     }
 }
