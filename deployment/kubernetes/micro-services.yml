@@ -54,8 +54,8 @@ metadata:
     run: gateway
 spec:
   ports:
-  - port: 80
-    targetPort: 80
+  - port: 443
+    targetPort: 443
     protocol: TCP
   selector:
     run: gateway-service
@@ -68,7 +68,7 @@ spec:
   selector:
     matchLabels:
       run: gateway-service
-  replicas: 2
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -109,7 +109,7 @@ spec:
   selector:
     matchLabels:
       run: authentication
-  replicas: 2
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -150,7 +150,7 @@ spec:
   selector:
     matchLabels:
       run: user
-  replicas: 2
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -191,7 +191,7 @@ spec:
   selector:
     matchLabels:
       run: post
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -231,13 +231,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-<<<<<<< HEAD
-      run: comment-service
-  replicas: 1
-=======
       run: comment
-  replicas: 2
->>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
+  replicas: 1
   template:
     metadata:
       labels:
@@ -277,13 +272,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-<<<<<<< HEAD
-      run: image-service
-  replicas: 1
-=======
       run: image
-  replicas: 2
->>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
+  replicas: 1
   template:
     metadata:
       labels:
@@ -323,13 +313,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-<<<<<<< HEAD
-      run: likes-service
-  replicas: 1 
-=======
       run: likes
-  replicas: 2
->>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -348,8 +333,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 9005
-<<<<<<< HEAD
-=======
 ---
 apiVersion: v1
 kind: Service
@@ -360,9 +343,13 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 8080
+  - port: 80
     targetPort: 80
     name: http
+    protocol: TCP
+  - port: 443
+    targetPort: 443
+    name: https
     protocol: TCP
   selector:
     run: vue-service
@@ -375,7 +362,7 @@ spec:
   selector:
     matchLabels:
       run: vue-service
-  replicas: 2
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -394,12 +381,13 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
->>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
+          name: http
+        - containerPort: 443
+          name: https
 # ---
 # apiVersion: v1
 # kind: Service
 # metadata:
-<<<<<<< HEAD
 #   name: vue
 #   labels:
 #     run: vue
@@ -411,7 +399,6 @@ spec:
 #     protocol: TCP
 #   selector:
 #     run: vue-service
-=======
 #   name: user-mysql
 #   labels:
 #     run: user-mysql
@@ -423,37 +410,10 @@ spec:
 #     protocol: TCP
 #   selector:
 #     run: user-mysql
->>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f
 # ---
 # apiVersion: apps/v1
 # kind: Deployment
-# metadata:
-<<<<<<< HEAD
-#   name: vue-service
-# spec:
-#   selector:
-#     matchLabels:
-#       run: vue-service
-#   replicas: 2
-#   template:
-#     metadata:
-#       labels:
-#         run: vue-service
-#     spec:
-#       containers:
-#       - name: vue-service
-#         resources:
-#               requests:
-#                 memory: "256Mi"
-#                 cpu: "125m"
-#               limits:
-#                 memory: "512Mi"
-#                 cpu: "250m"
-#         image: caskamp/game-highlights-vue
-#         ports:
-#         - containerPort: 80
-=======
-#   name:  user-mysql
+# name:  user-mysql
 # spec:
 #   selector:
 #     matchLabels:
@@ -478,4 +438,3 @@ spec:
 #         ports:
 #         - containerPort: 3306
         
->>>>>>> 3eacd94915a419fddfb993381a0e9bea2da8801f

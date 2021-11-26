@@ -59,6 +59,7 @@ public class ImageControllerTests {
                 new HttpEntity<>(body, headers);;
         ResponseEntity<String> response = restTemplate.exchange(url,HttpMethod.POST,requestEntity, String.class);
         System.out.println(response.getStatusCodeValue());
+        System.out.println(response.getBody());
         System.out.println(response.getStatusCode().getReasonPhrase());
         assertTrue(response.getStatusCodeValue()>=200 && response.getStatusCodeValue() <=300);
     }
