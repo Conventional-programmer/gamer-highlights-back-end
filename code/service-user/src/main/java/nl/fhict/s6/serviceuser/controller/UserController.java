@@ -1,7 +1,9 @@
 package nl.fhict.s6.serviceuser.controller;
 
 import nl.fhict.s6.libraryrest.controller.BaseController;
+import nl.fhict.s6.libraryrest.datamodels.EmptyPermission;
 import nl.fhict.s6.libraryrest.exception.NoObjectById;
+import nl.fhict.s6.libraryrest.exception.PermissionDenied;
 import nl.fhict.s6.serviceuser.converters.UserDaoConverter;
 import nl.fhict.s6.serviceuser.datamodels.UserDao;
 import nl.fhict.s6.serviceuser.dto.UserDto;
@@ -10,6 +12,7 @@ import nl.fhict.s6.serviceuser.messaging.EncapsulatingMessageGenerator;
 import nl.fhict.s6.serviceuser.service.UserService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +51,7 @@ public class UserController extends BaseController<UserDao, UserDto> {
         }
         UserDao userDao = userDaoConverter.objectToObjectDao(userDto);
         try {
-            UserDao updated = userService.update(userDao);
+            UserDao updated = userService.update(userDao,new EmptyPermission());
             if(userDao.getId().equals(updated.getId()) && userDao.getUsername().equals(updated.getUsername()))
             {
                 rabbitTemplate.convertAndSend(exchange,routingkey,encapsulatingMessageGenerator.generateMessage(new UsernameChangedEvent(updated.getId(),updated.getUsername())));
@@ -56,6 +59,8 @@ public class UserController extends BaseController<UserDao, UserDto> {
             return ResponseEntity.ok().build();
         } catch (NoObjectById noObjectById) {
             return ResponseEntity.badRequest().build();
+        } catch (PermissionDenied permissionDenied) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 }

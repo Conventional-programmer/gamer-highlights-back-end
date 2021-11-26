@@ -21,17 +21,16 @@ public class AddUserDetailHeadersFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
             ServerHttpRequest requestContext = exchange.getRequest();
             SecurityContext securityContext = SecurityContextHolder.getContext();
-            requestContext.mutate().headers(h -> h.add("user_id", Long.toString(-1L)));
-            //        requestContext.getHeaders().set("email", null);
-            //        requestContext.getHeaders().add("roles", null);
+            requestContext.mutate().headers(h -> h.add("User-Id", Long.toString(-1L)));
+            //        requestContext.getHeaders().set("Subject", null);
+            //        requestContext.getHeaders().add("Roles", null);
             System.out.println(securityContext.getAuthentication() instanceof ExternallyAuthenticatedAuthenticationToken);
             if (securityContext.getAuthentication() instanceof ExternallyAuthenticatedAuthenticationToken) {
                 ExternallyAuthenticatedAuthenticationToken authentication = (ExternallyAuthenticatedAuthenticationToken) securityContext.getAuthentication();
                 List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-                requestContext.mutate().headers(h -> h.set("user_id", authentication.getId()));
-                //            requestContext.getHeaders().add("user_id", authentication.getId());
-                //            requestContext.getHeaders().add("email", (String) authentication.getPrincipal());
-                //            requestContext.getHeaders().add("roles",  Base64.getEncoder().encodeToString(listToByteArray(authorities)));
+                requestContext.mutate().headers(h -> h.set("User-Id", authentication.getId()));
+                //            requestContext.getHeaders().add("Subject", (String) authentication.getPrincipal());
+                //            requestContext.getHeaders().add("Roles",  Base64.getEncoder().encodeToString(listToByteArray(authorities)));
             }
             return chain.filter(exchange);
     }

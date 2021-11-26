@@ -2,7 +2,6 @@ package nl.fhict.s6.servicepost.service;
 
 import nl.fhict.s6.servicepost.context.CommentHttpContext;
 import nl.fhict.s6.servicepost.dto.CommentDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

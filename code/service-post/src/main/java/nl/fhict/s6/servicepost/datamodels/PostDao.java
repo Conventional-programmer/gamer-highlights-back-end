@@ -26,6 +26,14 @@ public class PostDao extends EntityDao {
         this.description = description;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }

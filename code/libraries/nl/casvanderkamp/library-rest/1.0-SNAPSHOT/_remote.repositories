@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Apr 15 09:20:21 CEST 2021
+#Tue Nov 09 15:52:06 CET 2021
 library-rest-1.0-SNAPSHOT.pom>=
 library-rest-1.0-SNAPSHOT.jar>=
+library-rest-1.0-SNAPSHOT.jar>localrepository=
+library-rest-1.0-SNAPSHOT.pom>localrepository=

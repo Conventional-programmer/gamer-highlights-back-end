@@ -1,5 +1,7 @@
 package nl.fhict.s6.servicepost.controller;
 
+import nl.fhict.s6.libraryrest.authentication.http.PermissionHttpHeader;
+import nl.fhict.s6.libraryrest.authentication.http.exception.PermissionDenied;
 import nl.fhict.s6.libraryrest.controller.BaseController;
 import nl.fhict.s6.servicepost.context.CommentHttpContext;
 import nl.fhict.s6.servicepost.context.LikeHttpContext;
@@ -33,18 +35,28 @@ public class  PostController extends BaseController<PostDao,PostDto> {
         commentService = new CommentService(new CommentHttpContext("service-comment",9003,"comment"));
     }
     @Override
-    public ResponseEntity<PostDto> getEntityById(@PathVariable("id") Long id)
+    public ResponseEntity<PostDto> getEntityById(@PathVariable("id") Long id, PermissionHttpHeader permissionHttpHeader)
     {
-        PostDao postDao = postService.findById(id);
-        PostDto postDto = postDaoConverter.objectDaoToObject(postDao);
-        postDto.setComments(commentService.getCommentDtos(postDao.getId()));
-        postDto.setLikes(likeService.getAllLikesByPostId(postDao.getId()));
-        return new ResponseEntity(postDto, HttpStatus.OK);
+        try {
+            PostDao postDao = postService.findById(id,permissionHttpHeader.getBasePermission());
+            PostDto postDto = postDaoConverter.objectDaoToObject(postDao);
+            postDto.setComments(commentService.getCommentDtos(postDao.getId()));
+            postDto.setLikes(likeService.getAllLikesByPostId(postDao.getId()));
+            return new ResponseEntity(postDto, HttpStatus.OK);
+        } catch (PermissionDenied permissionDenied) {
+            return new ResponseEntity<>(null,HttpStatus.FORBIDDEN);
+        }
     }
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<PostDto>> getEntityByUserId(@PathVariable("id") Long id)
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<List<PostDto>> getEntityByUserId(@PathVariable("user_id") Long id,PermissionHttpHeader permissionHttpHeader)
     {
-        List<PostDao> postDaos = postService.getPostsByUserId(id);
+        if(!permissionHttpHeader.getBasePermission().getUserId().equals(id))
+        {
+            System.out.println(permissionHttpHeader.getBasePermission().getUserId());
+            System.out.println(id);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        List<PostDao> postDaos = postService.getPostsByUserId(id,permissionHttpHeader.getBasePermission());
         List<PostDto> postDtos = postDaoConverter.objectDaosToObjects(postDaos);
         for (PostDto postDto: postDtos) {
             postDto.setComments(commentService.getCommentDtos(postDto.getId()));
