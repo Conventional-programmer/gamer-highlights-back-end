@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -56,16 +58,17 @@ public class ImageController {
         return new ResponseEntity<>(media, headers, HttpStatus.OK);
     }
     @PostMapping(value = "",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity uploadImage(@RequestPart("file") MultipartFile file,@RequestPart("image") ImageDto imageDto) throws IOException {
+    public ResponseEntity<String> uploadImage(HttpServletRequest httpServletRequest, @RequestPart("file") MultipartFile file, @RequestPart("image") ImageDto imageDto) throws IOException {
         if(!file.isEmpty())
         {
             BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
             ImageDao imageDao = imageConverter.convertDtoToImageDao(imageDto,getSimpleName(file.getOriginalFilename()),1L);
-            imageService.save(imageDao);
             String destinationUrl = String.format("src/main/resources/static/%s/%s",imageDto.getImageType().name().toLowerCase(),file.getOriginalFilename());
             File destination = new File(destinationUrl);
             ImageIO.write(src, "jpg", destination);
-            return ResponseEntity.ok().build();
+            String baseUrl = ServletUriComponentsBuilder.fromRequestUri(httpServletRequest).build().toUriString();
+            String imageUrl = String.format("%s/%s/%s",baseUrl,imageDto.getImageType().name().toLowerCase(),getSimpleName(file.getOriginalFilename()));
+            return new ResponseEntity<>(imageUrl,HttpStatus.OK);
         }
         return ResponseEntity.badRequest().build();
     }
