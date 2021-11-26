@@ -24,8 +24,4 @@ spec:
             service:
               name: gateway
               port:
-<<<<<<< HEAD
                 number: 443
-=======
-                number: 443
->>>>>>> 2de29d71e70a0fa0816c2772287ffe83e490b6b8
