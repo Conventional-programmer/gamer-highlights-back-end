@@ -9,8 +9,8 @@ public class PostGeneration {
     public List<PostDao> generatePostDaos()
     {
         List<PostDao> postDaos = new ArrayList<>();
-        postDaos.add(new PostDao(1L,1L,"https://localhost/image/profile/profilepic","bert"));
-        postDaos.add(new PostDao(2L,2L,"https://localhost/image/profile/profilepic","gert"));
+        postDaos.add(new PostDao(1L,1L,"https://localhost:8080/image/profile/profilepic","bert"));
+        postDaos.add(new PostDao(2L,2L,"https://localhost:8080/image/profile/profilepic","gert"));
         return postDaos;
     }
 }

@@ -39,7 +39,7 @@ public class ImageController {
     @GetMapping(
             value = "/{content-type}/{image}"
     )
-    public ResponseEntity<byte[]> getImageWithMediaType(@RequestHeader("user_id") Long userId,@PathVariable("content-type")ContentType contentType , @PathVariable("image") String imageName) throws IOException {
+    public ResponseEntity<byte[]> getImageWithMediaType(@RequestHeader("User-Id") Long userId,@PathVariable("content-type")ContentType contentType , @PathVariable("image") String imageName) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         ImageDao imageDao = imageService.findByContentTypeAndName(contentType, imageName);
