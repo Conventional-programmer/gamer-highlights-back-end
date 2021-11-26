@@ -388,17 +388,6 @@ spec:
 # apiVersion: v1
 # kind: Service
 # metadata:
-#   name: vue
-#   labels:
-#     run: vue
-# spec:
-#   type: LoadBalancer
-#   ports:
-#   - port: 80 
-#     targetPort: 80 
-#     protocol: TCP
-#   selector:
-#     run: vue-service
 #   name: user-mysql
 #   labels:
 #     run: user-mysql
