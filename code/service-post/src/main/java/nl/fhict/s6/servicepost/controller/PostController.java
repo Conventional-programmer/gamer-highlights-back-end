@@ -52,8 +52,8 @@ public class  PostController extends BaseController<PostDao,PostDto> {
     {
         if(!permissionHttpHeader.getBasePermission().getUserId().equals(id))
         {
-            System.out.println(permissionHttpHeader.getBasePermission().getUserId());
-            System.out.println(id);
+            System.out.println("base premission: "+ permissionHttpHeader.getBasePermission().getUserId());
+            System.out.println("actualId" +id);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         List<PostDao> postDaos = postService.getPostsByUserId(id,permissionHttpHeader.getBasePermission());

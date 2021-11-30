@@ -1,9 +1,10 @@
 package nl.fhict.s6.serviceuser.controller;
 
+import nl.fhict.s6.libraryrest.authentication.http.PermissionHttpHeader;
+import nl.fhict.s6.libraryrest.authentication.http.exception.PermissionDenied;
 import nl.fhict.s6.libraryrest.controller.BaseController;
 import nl.fhict.s6.libraryrest.datamodels.EmptyPermission;
 import nl.fhict.s6.libraryrest.exception.NoObjectById;
-import nl.fhict.s6.libraryrest.exception.PermissionDenied;
 import nl.fhict.s6.serviceuser.converters.UserDaoConverter;
 import nl.fhict.s6.serviceuser.datamodels.UserDao;
 import nl.fhict.s6.serviceuser.dto.UserDto;
@@ -39,7 +40,7 @@ public class UserController extends BaseController<UserDao, UserDto> {
 
     @Override
     @PostMapping({""})
-    public ResponseEntity post(@ModelAttribute UserDto userDto) {
+    public ResponseEntity post(@ModelAttribute UserDto userDto, PermissionHttpHeader permissionHttpHeader) {
         return ResponseEntity.notFound().build();
     }
     @PutMapping(value = "/{id}")

@@ -48,7 +48,6 @@ public class RemoteAuthorizationHeaderFilter implements GlobalFilter, Ordered {
         if (authorizationHeader != null && authorizationHeader.length() > 0) {
             VerifyTokenResponse verifyTokenResponse = authorizationService.getVerifyTokenResponseByToken(authorizationHeader);
             if (verifyTokenResponse != null && verifyTokenResponse.isValid()) {
-                System.out.println("Verify token response id: " + verifyTokenResponse.getId());
                 new AuthorizationHelper().setSecurityContextByVerifyTokenResponse(verifyTokenResponse);
             }
         }
