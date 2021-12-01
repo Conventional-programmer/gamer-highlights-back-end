@@ -3,45 +3,57 @@ package nl.fhict.s6.serviceauthentication.dto.response;
 import java.util.List;
 
 public class JwtResponse {
-    private String token;
-    private String type = "Bearer";
+    private String accessToken;
+    private String tokenType = "Bearer";
     private String refreshToken;
-    private Long id;
+    private Long userId;
     private String username;
     private String email;
     private List<String> roles;
 
     public JwtResponse(String accessToken,String refreshToken, Long id, String username, String email, List<String> roles) {
-        this.token = accessToken;
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.id = id;
+        this.userId = id;
         this.username = username;
         this.email = email;
         this.roles = roles;
     }
 
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     public String getAccessToken() {
-        return token;
+        return accessToken;
     }
 
     public void setAccessToken(String accessToken) {
-        this.token = accessToken;
+        this.accessToken = accessToken;
     }
 
     public String getTokenType() {
-        return type;
+        return tokenType;
     }
 
     public void setTokenType(String tokenType) {
-        this.type = tokenType;
+        this.tokenType = tokenType;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {

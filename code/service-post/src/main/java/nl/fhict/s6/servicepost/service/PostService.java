@@ -30,7 +30,7 @@ public class PostService extends CrudService<PostDao> {
     }
     @Override
     public PostDao save(PostDao postDao,Permission permission) throws PermissionDenied {
-        if(!postDao.getUserId().equals(permission.getUserId()))
+        if(postDao.getUserId() == null || !postDao.getUserId().equals(permission.getUserId()))
         {
             throw new PermissionDenied("Not authorized");
         }

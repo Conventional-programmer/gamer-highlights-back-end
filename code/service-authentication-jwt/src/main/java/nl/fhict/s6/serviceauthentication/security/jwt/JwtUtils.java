@@ -27,10 +27,6 @@ public class JwtUtils {
 
     public <T> T extractClaim(String token, String claim, Class<T> type) {
         Claims claims = extractAllClaims(token);
-        for(Map.Entry<String,Object> claimToPrint: claims.entrySet())
-        {
-            System.out.println(claimToPrint.getKey());
-        }
         return claims.get(claim, type);
     }
 

@@ -27,7 +27,7 @@ public class ImageControllerTests {
     @Autowired
     TestRestTemplate restTemplate;
 
-    String baseUrl = "http://localhost:%d/image";
+    String baseUrl = "http://localhost:%d/image/";
 
     @Test
     public void uploadImage() throws IOException {
@@ -37,6 +37,7 @@ public class ImageControllerTests {
         String url = String.format(baseUrl,port);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set("User-Id",String.valueOf(1));
 
         // This nested HttpEntiy is important to create the correct
         // Content-Disposition entry with metadata "name" and "filename"
@@ -58,7 +59,6 @@ public class ImageControllerTests {
         HttpEntity<MultiValueMap<String, Object>> requestEntity =
                 new HttpEntity<>(body, headers);;
         ResponseEntity<String> response = restTemplate.exchange(url,HttpMethod.POST,requestEntity, String.class);
-        System.out.println(response.getStatusCodeValue());
         System.out.println(response.getBody());
         System.out.println(response.getStatusCode().getReasonPhrase());
         assertTrue(response.getStatusCodeValue()>=200 && response.getStatusCodeValue() <=300);
@@ -69,7 +69,7 @@ public class ImageControllerTests {
         url = String.format(url,port, ContentType.PROFILE.toString().toLowerCase(),"profilepic");
         System.out.println(url);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("user_id",String.valueOf(1));
+        httpHeaders.set("User-Id",String.valueOf(1));
         HttpEntity httpEntity = new HttpEntity<>(httpHeaders);
         ResponseEntity<byte[]> response = restTemplate.exchange(url,HttpMethod.GET,httpEntity, byte[].class);
         System.out.println(response.getStatusCode().getReasonPhrase());

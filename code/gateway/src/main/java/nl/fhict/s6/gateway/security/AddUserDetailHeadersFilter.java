@@ -28,14 +28,15 @@ public class AddUserDetailHeadersFilter implements GlobalFilter, Ordered {
                 ExternallyAuthenticatedAuthenticationToken authentication = (ExternallyAuthenticatedAuthenticationToken) securityContext.getAuthentication();
                 List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
                 System.out.println("User-id: " + authentication.getId());
-                requestContext.mutate().headers(h -> h.set("User-Id", authentication.getId()));
+                requestContext.mutate().headers(h -> h.set("User-Id", authentication.getId())).build();
                 //            requestContext.getHeaders().add("Subject", (String) authentication.getPrincipal());
                 //            requestContext.getHeaders().add("Roles",  Base64.getEncoder().encodeToString(listToByteArray(authorities)));
             }
             else {
-                requestContext.mutate().headers(h -> h.set("User-Id", Long.toString(-1L)));
+                requestContext.mutate().headers(h -> h.set("User-Id", Long.toString(-1L))).build();
             }
-            System.out.println("Header end result: "+requestContext.getHeaders().getFirst("User-Id"));
+            exchange.mutate().request(requestContext).build();
+            System.out.println("Header end result: "+exchange.getRequest().getHeaders().getFirst("User-Id"));
             return chain.filter(exchange);
     }
 

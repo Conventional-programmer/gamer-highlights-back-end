@@ -1,5 +1,6 @@
 package nl.fhict.s6.serviceimage.controller;
 
+import nl.fhict.s6.libraryrest.authentication.http.PermissionHttpHeader;
 import nl.fhict.s6.serviceimage.converters.ImageConverter;
 import nl.fhict.s6.serviceimage.datamodels.ImageDao;
 import nl.fhict.s6.serviceimage.datamodels.ImageJpaDao;
@@ -7,6 +8,7 @@ import nl.fhict.s6.serviceimage.dto.ContentType;
 import nl.fhict.s6.serviceimage.dto.ImageDto;
 import nl.fhict.s6.serviceimage.service.ImageJpaService;
 import nl.fhict.s6.serviceimage.service.ImageService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.*;
@@ -24,6 +26,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/image")
@@ -39,35 +44,39 @@ public class ImageController {
     @GetMapping(
             value = "/{content-type}/{image}"
     )
-    public ResponseEntity<byte[]> getImageWithMediaType(@RequestHeader("User-Id") Long userId,@PathVariable("content-type")ContentType contentType , @PathVariable("image") String imageName) throws IOException {
+    public ResponseEntity<byte[]> getImageWithMediaType(PermissionHttpHeader permissionHttpHeader,@PathVariable("content-type")ContentType contentType , @PathVariable("image") String imageName) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         ImageDao imageDao = imageService.findByContentTypeAndName(contentType, imageName);
-        if(userId <= 0)
+        if(permissionHttpHeader.getBasePermission().getUserId() <= 0)
         {
             return new ResponseEntity(null,headers,HttpStatus.UNAUTHORIZED);
         }
-        if(imageDao == null || !imageDao.getUserId().equals(userId))
+        if(imageDao == null || !imageDao.getUserId().equals(permissionHttpHeader.getBasePermission().getUserId()))
         {
+            System.out.println(imageDao == null);
             return new ResponseEntity(null,headers,HttpStatus.FORBIDDEN);
         }
-        String path = String.format("/static/%s/%s.jpg",contentType.name().toLowerCase(),imageName);
-        URL imageUrl = getClass().getResource(path);
-        InputStream in = imageUrl.openStream();
-        byte[] media = IOUtils.toByteArray(in);
+        Path directoryPath = Paths.get(String.format("images/%s/",contentType.name().toLowerCase()));
+        Path filePath = directoryPath.resolve(String.format("%s.jpg",imageName));
+        byte[] media = FileUtils.readFileToByteArray(filePath.toFile());
         return new ResponseEntity<>(media, headers, HttpStatus.OK);
     }
     @PostMapping(value = "",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> uploadImage(HttpServletRequest httpServletRequest, @RequestPart("file") MultipartFile file, @RequestPart("image") ImageDto imageDto) throws IOException {
+    public ResponseEntity<String> uploadImage(PermissionHttpHeader permissionHttpHeader, @RequestPart("file") MultipartFile file, @RequestPart("image") ImageDto imageDto) throws IOException {
         if(!file.isEmpty())
         {
             BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-            ImageDao imageDao = imageConverter.convertDtoToImageDao(imageDto,getSimpleName(file.getOriginalFilename()),1L);
-            String destinationUrl = String.format("src/main/resources/static/%s/%s",imageDto.getImageType().name().toLowerCase(),file.getOriginalFilename());
-            File destination = new File(destinationUrl);
-            ImageIO.write(src, "jpg", destination);
-            String baseUrl = ServletUriComponentsBuilder.fromRequestUri(httpServletRequest).build().toUriString();
-            String imageUrl = String.format("%s/%s/%s",baseUrl,imageDto.getImageType().name().toLowerCase(),getSimpleName(file.getOriginalFilename()));
+            ImageDao imageDao = imageConverter.convertDtoToImageDao(imageDto,getSimpleName(file.getOriginalFilename()),permissionHttpHeader.getBasePermission().getUserId());
+            imageService.save(imageDao);
+            Path directoryPath = Paths.get(String.format("images/%s/",imageDto.getImageType().name().toLowerCase()));
+            if (!Files.exists(directoryPath)) {
+                Files.createDirectories(directoryPath);
+            }
+            Path filePath = directoryPath.resolve(file.getOriginalFilename());
+            ImageIO.write(src, "jpg", filePath.toFile());
+            String baseUrl = ServletUriComponentsBuilder.fromRequestUri(permissionHttpHeader).replacePath("").replaceQuery("").toUriString();
+            String imageUrl = String.format("%s/image/%s/%s",baseUrl,imageDto.getImageType().name().toLowerCase(),getSimpleName(file.getOriginalFilename()));
             return new ResponseEntity<>(imageUrl,HttpStatus.OK);
         }
         return ResponseEntity.badRequest().build();

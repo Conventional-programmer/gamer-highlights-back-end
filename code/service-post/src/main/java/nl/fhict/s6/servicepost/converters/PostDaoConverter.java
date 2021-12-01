@@ -11,6 +11,8 @@ public class PostDaoConverter extends BaseDaoConverter<PostDao, PostDto> {
     public PostDao objectToObjectDao(PostDto object) {
         PostDao postDao = new PostDao();
         postDao.setId(object.getId());
+        postDao.setUserId(object.getPostingUser().getUserId());
+        System.out.println(postDao.getUserId());
         postDao.setDescription(object.getDescription());
         postDao.setImageUrl(object.getImageUrl());
         //postDao.setLikes(object.getLikes());
