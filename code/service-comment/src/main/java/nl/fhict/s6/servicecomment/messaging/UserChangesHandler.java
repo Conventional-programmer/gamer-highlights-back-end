@@ -1,5 +1,7 @@
 package nl.fhict.s6.servicecomment.messaging;
 
+import nl.fhict.s6.libraryrest.authentication.http.exception.PermissionDenied;
+import nl.fhict.s6.libraryrest.datamodels.EmptyPermission;
 import nl.fhict.s6.libraryrest.exception.NoObjectById;
 import nl.fhict.s6.servicecomment.basemessaging.MessageHandlerBase;
 import nl.fhict.s6.servicecomment.converters.UserEventConverter;
@@ -22,8 +24,8 @@ public class UserChangesHandler extends MessageHandlerBase<UsernameChangedEvent>
     public void handleMessageInternal(UsernameChangedEvent message) {
         UserDao userDao = USER_EVENT_CONVERTER.userDaoByUserEvent(message);
         try {
-            USER_SERVICE.update(userDao);
-        } catch (NoObjectById noObjectById) {
+            USER_SERVICE.update(userDao, new EmptyPermission());
+        } catch (NoObjectById | PermissionDenied noObjectById) {
             noObjectById.printStackTrace();
         }
     }

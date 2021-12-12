@@ -6,6 +6,7 @@ import nl.fhict.s6.gateway.service.AuthorizationService;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.GatewayFilterFactory;
 import org.springframework.core.Ordered;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +22,6 @@ public class AuthorizationParameterFilter implements GatewayFilterFactory<Author
         return (exchange, chain) -> {
             String authorizationHeader = exchange.getRequest().getQueryParams().getFirst("Authorization");
             System.out.println("auth header " + authorizationHeader);
-            System.out.println("AuthorizationParameterFilter");
             if (authorizationHeader != null && authorizationHeader.length() > 0) {
                 VerifyTokenResponse verifyTokenResponse = authorizationService.getVerifyTokenResponseByToken(authorizationHeader);
                 if (verifyTokenResponse != null && verifyTokenResponse.isValid()) {

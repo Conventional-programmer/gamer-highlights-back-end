@@ -1,6 +1,5 @@
 package nl.fhict.s6.libraryrest.authentication.http;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 public class LoadUserFromHeaderFilter extends OncePerRequestFilter {
     public LoadUserFromHeaderFilter() {
     }
@@ -17,5 +15,11 @@ public class LoadUserFromHeaderFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         PermissionHttpHeader permissionHttpHeader = new PermissionHttpHeader(httpServletRequest);
         filterChain.doFilter(permissionHttpHeader, httpServletResponse);
+    }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request)
+            throws ServletException {
+        String path = request.getRequestURI();
+        return path.matches("/actuator/(.*)");
     }
 }

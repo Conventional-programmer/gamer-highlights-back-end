@@ -45,6 +45,7 @@ public class RemoteAuthorizationHeaderFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
+        System.out.println("auth header: "+ authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.length() > 0) {
             VerifyTokenResponse verifyTokenResponse = authorizationService.getVerifyTokenResponseByToken(authorizationHeader);
             if (verifyTokenResponse != null && verifyTokenResponse.isValid()) {

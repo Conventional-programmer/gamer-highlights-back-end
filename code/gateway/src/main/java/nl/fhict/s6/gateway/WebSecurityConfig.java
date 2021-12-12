@@ -1,9 +1,7 @@
 package nl.fhict.s6.gateway;
 
 import nl.fhict.s6.gateway.security.AuthEntryPointJwt;
-import nl.fhict.s6.gateway.security.RemoteAuthorizationHeaderFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
@@ -35,7 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable().
+                securityContextRepository(NoOpServerSecurityContextRepository.getInstance());
         http
                 .authorizeExchange()
                 .pathMatchers("/auth/**").permitAll()

@@ -44,6 +44,7 @@ spring:
           filters:
             - AuthorizationParameterFilter
             - RemoveRequestHeader=Cookie
+            - PreserveHostHeader
         - id: likes
           uri: http://service-likes:9005/like
           predicates:

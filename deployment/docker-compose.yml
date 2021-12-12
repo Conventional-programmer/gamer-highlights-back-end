@@ -5,14 +5,14 @@ services:
     hostname: gateway
     ports: 
       - "8080:8080"
-  user-mysql:
-    image: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=P@ssw0rd
-    healthcheck:
-      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
-      timeout: 10s
-      retries: 10
+#  user-mysql:
+#    image: mysql
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=P@ssw0rd
+#    healthcheck:
+#      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+#      timeout: 10s
+#      retries: 10
   message-broker:
     image: rabbitmq:3.8-management
     hostname: message-broker
@@ -38,16 +38,10 @@ services:
     image: service-authentication:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-authentication # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-    depends_on:
-      user-mysql:
-        condition: service_healthy
   service-user: # <--- this is the name of the service and should be unique.
     image: service-user:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-user # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-    depends_on:
-       user-mysql:
-        condition: service_healthy
   service-post: # <--- this is the name of the service and should be unique.
     image: service-post:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-post # <--- this will be the hostname it will be known as.
@@ -63,37 +57,37 @@ services:
     image: service-comment:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-comment # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-  comment-mysql:
-    image: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=P@ssw0rd
-    healthcheck:
-      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
-      timeout: 10s
-      retries: 10
+#  comment-mysql:
+#    image: mysql
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=P@ssw0rd
+#    healthcheck:
+#      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+#      timeout: 10s
+#      retries: 10
   service-image: # <--- this is the name of the service and should be unique.
     image: service-image:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-image # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.z
-  image-mongodb:
-    image : mongo
-    hostname: image-mongo
-    container_name: image-mongodb
-    environment:
-      - PUID=1000
-      - PGID=1000
-    restart: unless-stopped
+#  image-mongodb:
+#    image : mongo
+#    hostname: image-mongo
+#    container_name: image-mongodb
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#    restart: unless-stopped
   service-likes: # <--- this is the name of the service and should be unique.
     image: service-likes:0.0.1-SNAPSHOT # <--- this is the image of which the service will be based upon.
     hostname: service-likes # <--- this will be the hostname it will be known as.
     restart: always # <--- if it fails, always restart.
-  likes-mysql:
-    image: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=P@ssw0rd
-    healthcheck:
-      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
-      timeout: 10s
-      retries: 10
+#  likes-mysql:
+#    image: mysql
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=P@ssw0rd
+#    healthcheck:
+#      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+#      timeout: 10s
+#      retries: 10
 
 

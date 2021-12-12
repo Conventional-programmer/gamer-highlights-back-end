@@ -2,6 +2,7 @@ package nl.fhict.s6.serviceimage.controller;
 
 import nl.fhict.s6.serviceimage.dto.ContentType;
 import nl.fhict.s6.serviceimage.dto.ImageDto;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.util.MultiValueMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,14 +34,12 @@ public class ImageControllerTests {
 
     @Test
     public void uploadImage() throws IOException {
-        URL imageUrl = getClass().getResource("/static/profile/profilepic.jpg");
-        InputStream in = imageUrl.openStream();
-        byte[] media = IOUtils.toByteArray(in);
+        Path directoryPath = Paths.get("images/profile/profile.jpg");
+        byte[] media = FileUtils.readFileToByteArray(directoryPath.toFile());
         String url = String.format(baseUrl,port);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("User-Id",String.valueOf(1));
-
         // This nested HttpEntiy is important to create the correct
         // Content-Disposition entry with metadata "name" and "filename"
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
@@ -65,8 +66,8 @@ public class ImageControllerTests {
     }
     @Test
     public void getImageWithMediaType() throws IOException {
-        String url = baseUrl+ "/%s/%s";
-        url = String.format(url,port, ContentType.PROFILE.toString().toLowerCase(),"profilepic");
+        String url = baseUrl+ "%s/%s";
+        url = String.format(url,port, ContentType.PROFILE.toString().toLowerCase(),"profilepic.jpg");
         System.out.println(url);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("User-Id",String.valueOf(1));
@@ -81,7 +82,7 @@ public class ImageControllerTests {
         url = String.format(url,port, ContentType.PROFILE.toString().toLowerCase(),"profilepic");
         System.out.println(url);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("user_id",String.valueOf(-1));
+        httpHeaders.set("User-Id",String.valueOf(-1));
         HttpEntity httpEntity = new HttpEntity<>(httpHeaders);
         ResponseEntity<byte[]> response = restTemplate.exchange(url,HttpMethod.GET,httpEntity, byte[].class);
         System.out.println(response.getStatusCode().getReasonPhrase());

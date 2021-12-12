@@ -34,6 +34,8 @@ public class ImageJpaService extends CrudService<ImageJpaDao> implements ImageSe
 
     @Override
     public ImageJpaDao save(ImageJpaDao imageDao) {
+        System.out.println(imageDao.getName());
+        System.out.println(imageDao.getContentType());
         return imageRepository.save(imageDao);
     }
 }

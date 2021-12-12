@@ -9,6 +9,7 @@ import nl.fhict.s6.servicepost.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService extends CrudService<PostDao> {
@@ -19,6 +20,20 @@ public class PostService extends CrudService<PostDao> {
     }
     public List<PostDao> getPostsByUserId(Long userId,Permission permission) {
        return postRepository.getAllByUserId(userId);
+    }
+    @Override
+    public PostDao findById(Long id,Permission permission) throws PermissionDenied
+    {
+        Optional<PostDao> postDao = postRepository.findById(id);
+        if(!postDao.isPresent())
+        {
+            return null;
+        }
+        if(!postDao.get().getUserId().equals(permission.getUserId()))
+        {
+            throw new PermissionDenied("Not authorized");
+        }
+        return postDao.get();
     }
     @Override
     public PostDao update(PostDao postDao, Permission permission) throws PermissionDenied, NoObjectById {
