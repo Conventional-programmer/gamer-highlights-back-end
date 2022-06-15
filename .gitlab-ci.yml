@@ -47,7 +47,7 @@ authentication-service-sonar:
     script:
     - cd code/service-authentication-jwt
     - mvn package
-    - mvn sonar:sonar -Dsonar.projectKey=gamerhighlight-auth -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=94c4e71e0432ecf8837fa8ec28f36f92b0c38f96
+    - mvn sonar:sonar -Dsonar.projectKey=gamerhighlight-auth -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=
 user_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -90,7 +90,7 @@ user-service-sonar:
     script:
     - cd code/service-user
     - mvn package
-    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_user -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=0800fb60d949e4ac5e4592e697dcf52a558a2b32
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_user -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=
 comment_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -133,7 +133,7 @@ comment-service-sonar:
     script:
     - cd code/service-comment
     - mvn package
-    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_comment -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=8b5c23eadc9ffd0b6b0d667aaba3d61ea665d98b
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_comment -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=
 image_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -176,7 +176,7 @@ image-service-sonar:
     script:
     - cd code/service-likes
     - mvn package
-    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_image -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=a400efa988c4cdb213d7dbdc571834c22569241d
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights_image -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=
 like_service_build:
     image:
         name: maven:3.6-jdk-11
@@ -219,8 +219,7 @@ likes-service-sonar:
     script:
     - cd code/service-likes
     - mvn package 
-    - mvn sonar:sonar -Dsonar.projectKey=game-highlights_likes -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=ec6babee6541205e94fae0b4e5afdca99ec081d4
-post_service_build:
+    - mvn sonar:sonar -Dsonar.projectKey=game-highlights_likes -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=
     image:
         name: maven:3.6-jdk-11
     stage: build
@@ -277,4 +276,4 @@ post-service-sonar:
     script:
     - cd code/service-post
     - mvn package 
-    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights-post -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=8dc7591f4f22e2273775d75a8a5ec23e2134547e
+    - mvn sonar:sonar -Dsonar.projectKey=gamer-highlights-post -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.login=
